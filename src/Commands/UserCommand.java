@@ -31,19 +31,19 @@ public abstract class UserCommand {
         return payload;
     }
     @Override
-public String toString() {
-    StringBuilder payloadString = new StringBuilder();
-    if (payload != null) {
-        for (String item : payload) {
-            payloadString.append(item).append(", ");
+    public String toString() {
+        StringBuilder payloadString = new StringBuilder();
+        if (payload != null) {
+            for (String item : payload) {
+                payloadString.append(item).append(", ");
+            }
+            // Rimuove l'ultima virgola e spazio, se presenti
+            if (payloadString.length() > 0) {
+                payloadString.setLength(payloadString.length() - 2);
+            }
         }
-        // Rimuove l'ultima virgola e spazio, se presenti
-        if (payloadString.length() > 0) {
-            payloadString.setLength(payloadString.length() - 2);
-        }
-    }
 
-    return "UserCommand{" +
+        return "UserCommand{" +
            "type='" + type + '\'' +
            ", payload=[" + payloadString + "]" +
            '}';

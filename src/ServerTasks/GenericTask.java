@@ -21,7 +21,7 @@ public class GenericTask implements Runnable {
     private ScheduledExecutorService timeoutScheduler;
     private ScheduledFuture<?> timeoutTask;
     private Protocol protocol;
-    private String onlineUser;
+    private String onlineUser = new String();
 
     public GenericTask(Socket client_socket,Protocol protocol) throws Exception{
         super();
@@ -80,7 +80,7 @@ public class GenericTask implements Runnable {
             return;
         }
         catch(Exception e){
-            //System.out.println("moio");
+            System.out.println("moio");
             return;
         }
     }
@@ -107,20 +107,22 @@ public class GenericTask implements Runnable {
         System.out.println("richiesta factory: "+factoryrequest);
         UserCommand cmd = FactoryRegistry.getFactory(factoryrequest).createUserCommand(clientRequest.payload.split(" "));
         //cmd.toString();
-        System.out.println("Comando fabbricato: "+cmd.getType());
+        System.out.println("Comando fabbricato: "+cmd.toString());
         Message responseMessage = new Message();
         
         System.out.println("Messaggio creato");
+        //System.out.println(this.onlineUser);
         if (this.validateCommand(cmd)){
-            
+            //System.out.println("entro");
             cmd.execute(responseMessage);
-            //correggere
-            if (factoryrequest.equals("credentials") && (responseMessage.code == 200)){
+            //Fare Strategy per credenziali 
+            if (factoryrequest.equals("credentials") && (responseMessage.code == 201)){
                 this.onlineUser = cmd.getInfo()[0];
+                System.out.println(this.onlineUser);
             }
         }else{
-            responseMessage.code = 400;
-            responseMessage.payload = "comando non corretto";
+            if(this.onlineUser.equals(""))responseMessage.code = 401;
+            else responseMessage.code = 400;
         }   
         
         //risposta del server
@@ -134,9 +136,12 @@ public class GenericTask implements Runnable {
         if (cmd.getType().equals("none")){
             return false;
         }
-        if(cmd.getType().toLowerCase().contains("marketorder") || cmd.getType().toLowerCase().contains("stoporder") || cmd.getType().toLowerCase().contains("limitorder")){
+        
+        if(cmd.getType().toLowerCase().contains("order")){
             //se utente non autenticato -> return false
-            if (this.onlineUser == null)return false;
+            if (this.onlineUser.equals("")){
+                return false;
+            }
         }
         return true;
     }

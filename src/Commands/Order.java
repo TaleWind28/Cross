@@ -1,43 +1,48 @@
 package Commands;
+import Commands.OrderBehaviours.LimitOrder;
 import Commands.OrderBehaviours.MarketOrder;
 import Commands.OrderBehaviours.OrderBehaviour;
+import Commands.OrderBehaviours.StopOrder;
 import Communication.Message;
 
 public class Order extends UserCommand{
-    protected String type;
+    protected String reqType;
     protected int size;
     protected int treshold;
     protected OrderBehaviour myBehaviour;
     
     public Order(String[] input){
         super(input);
-        this.type = super.getType();
-        this.size = Integer.parseInt(this.getPayload()[0]);
-        if(this.type.equals("marketorder")){
-            this.treshold = 0;
-            setBehaviour(new MarketOrder());
-        }else{
-            this.treshold = Integer.parseInt(this.getPayload()[1]);
+        this.reqType = this.getPayload()[0];
+        this.size = Integer.parseInt(this.getPayload()[1]);
+        this.treshold = 0;
+        if(this.getPayload().length==3){
+            this.treshold = Integer.parseInt(this.getPayload()[2]);
         }
         //settare behaviour
     }
 
     //costruttore MarketOrder
-    public Order(String type, int size){
+    public Order(String orderType, String type, int size){
         super();
-        super.setType(type);
+        super.setType(orderType);
+        this.myBehaviour = new MarketOrder();
+        this.reqType = type;
         this.size = size;
         this.treshold = 0;
-        setBehaviour(new MarketOrder());
+        
     }
 
     //costruttore LimitOrder e StopOrder
-    public Order(String type, int size, int treshold){
+    public Order(String orderType, String type, int size, int treshold){
         super();
-        super.setType(type);
+        super.setType(orderType);
+        if (orderType.toLowerCase().contains("stoporder"))setBehaviour(new StopOrder());
+        if (orderType.toLowerCase().contains("limitorder"))setBehaviour(new LimitOrder());
+        this.reqType = type;
         this.size = size;
         this.treshold = treshold;
-        setBehaviour(new MarketOrder());
+        //setBehaviour(new MarketOrder());
     }
 
     public void setBehaviour(OrderBehaviour behaviour){
@@ -56,7 +61,7 @@ public class Order extends UserCommand{
     @Override
     public String[] getInfo(){
         String[] info = new String[4];
-        info[0] = this.type;
+        info[0] = this.reqType;
         info[1] = ""+this.size;
         info[2] = ""+this.treshold;
         return info;
@@ -64,7 +69,8 @@ public class Order extends UserCommand{
     
     public String toString() {
         return "Order{" +
-               "type='" + type + '\'' +
+               "orderType='" + this.getType() + '\'' +
+               ", type='" + reqType + '\'' +
                ", size=" + size +
                ", treshold=" + treshold +
                ", myBehaviour=" + (myBehaviour != null ? myBehaviour.toString() : "null") +
