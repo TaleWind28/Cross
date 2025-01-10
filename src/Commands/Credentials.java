@@ -46,10 +46,6 @@ public class Credentials extends UserCommand{
                 //sloggare
                 output.payload = "utente correttamente sloggato: "+this.getUsername();
                 output.code = 200;
-<<<<<<< HEAD
-=======
-
->>>>>>> f2f0a3e9a18c3ca8ae666a6fade81e311c7083f8
                 return;
             case "login":
                 //controllare che username e password corrispondano
