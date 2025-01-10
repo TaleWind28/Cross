@@ -115,13 +115,21 @@ public class GenericTask implements Runnable {
         if (this.validateCommand(cmd)){
             //System.out.println("entro");
             cmd.execute(responseMessage);
+<<<<<<< HEAD
             //Fare Strategy per credenziali 
+=======
+            //correggere
+>>>>>>> f2f0a3e9a18c3ca8ae666a6fade81e311c7083f8
             if (factoryrequest.equals("credentials") && (responseMessage.code == 201)){
                 this.onlineUser = cmd.getInfo()[0];
                 System.out.println(this.onlineUser);
             }
         }else{
+<<<<<<< HEAD
             if(this.onlineUser.equals(""))responseMessage.code = 401;
+=======
+            if(this.onlineUser == null)responseMessage.code = 401;
+>>>>>>> f2f0a3e9a18c3ca8ae666a6fade81e311c7083f8
             else responseMessage.code = 400;
         }   
         
