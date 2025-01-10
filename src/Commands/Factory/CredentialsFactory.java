@@ -15,22 +15,22 @@ public class CredentialsFactory implements UserCommandFactory{
             String newPassword = null;
             switch (type) {
                 case "logout":
-                    return new Credentials(username);
+                    return new Credentials(type,username);
                 case "register":
                     password = command[2];
-                    return new Credentials(username,password);
+                    return new Credentials(type,username,password);
                 case "login":
                     password = command[2];
-                    return new Credentials(username,password);
+                    return new Credentials(type,username,password);
                 case "updateCredentials":
                     password = command[2];
                     newPassword = command[3];
-                    return new Credentials(username,password,newPassword);
+                    return new Credentials(type,username,password,newPassword);
             }
-            return new Credentials(username);
+            return new Credentials("none",username);
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("out of bounds");
-            return new Credentials("none");
+            return new Credentials("none","none");
         }
     }
     

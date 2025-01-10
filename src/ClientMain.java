@@ -42,6 +42,14 @@ public class ClientMain extends ClientProtocol{
                         System.out.println("moio");
                         System.exit(0);
                         continue;
+                    case 401:
+                        System.out.println(serverAnswer.code+": Autenticazione Richiesta!");
+                        this.canSend = true;
+                        continue;
+                    case 400:
+                        System.out.println("comando errato digitare aiuto per una lista dettagliata");
+                        this.canSend = true;
+                        continue;
                     default:
                         System.out.println(serverAnswer.payload);
                         this.canSend = true;

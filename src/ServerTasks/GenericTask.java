@@ -80,7 +80,7 @@ public class GenericTask implements Runnable {
             return;
         }
         catch(Exception e){
-            //System.out.println("moio");
+            System.out.println("moio");
             return;
         }
     }
@@ -115,12 +115,13 @@ public class GenericTask implements Runnable {
             
             cmd.execute(responseMessage);
             //correggere
-            if (factoryrequest.equals("credentials") && (responseMessage.code == 200)){
+            if (factoryrequest.equals("credentials") && (responseMessage.code == 201)){
                 this.onlineUser = cmd.getInfo()[0];
+                System.out.println(this.onlineUser);
             }
         }else{
-            responseMessage.code = 400;
-            responseMessage.payload = "comando non corretto";
+            if(this.onlineUser == null)responseMessage.code = 401;
+            else responseMessage.code = 400;
         }   
         
         //risposta del server
