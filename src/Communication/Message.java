@@ -2,7 +2,7 @@ package Communication;
 /*
  * Codici HTTP
  * 200 OK
- * 201 CREATED 
+ * 201 CREATED
  * 204 NO CONTENT -> richiesta completata ma ritorno void
  * 400 Bad Request -> richiesta malformata
  * 401 Unauthorized -> Autenticazione richiesta

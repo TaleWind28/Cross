@@ -8,11 +8,14 @@ public class CredentialsFactory implements UserCommandFactory{
     @Override
     public UserCommand createUserCommand(String[] command) throws ArrayIndexOutOfBoundsException{
         String type = command[0].toLowerCase();
-        String username = command[1];   
-        String password = null;
-        String newPassword = null;
+        System.out.println(type);
         try {
+            String username = command[1];   
+            String password = null;
+            String newPassword = null;
             switch (type) {
+                case "logout":
+                    return new Credentials(username);
                 case "register":
                     password = command[2];
                     return new Credentials(username,password);
@@ -24,10 +27,11 @@ public class CredentialsFactory implements UserCommandFactory{
                     newPassword = command[3];
                     return new Credentials(username,password,newPassword);
             }
+            return new Credentials(username);
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.exit(0);
+            System.out.println("out of bounds");
+            return new Credentials("none");
         }
-        return new Credentials(username);
     }
     
 }

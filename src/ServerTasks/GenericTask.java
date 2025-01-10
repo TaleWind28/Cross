@@ -21,6 +21,7 @@ public class GenericTask implements Runnable {
     private ScheduledExecutorService timeoutScheduler;
     private ScheduledFuture<?> timeoutTask;
     private Protocol protocol;
+    private String onlineUser;
 
     public GenericTask(Socket client_socket,Protocol protocol) throws Exception{
         super();
@@ -65,7 +66,7 @@ public class GenericTask implements Runnable {
                 this.timeoutTask.cancel(false);
                 this.timeoutTask = null;
                 //stampa il contenuto del messaggio ricevuto
-                System.out.println(clientRequest.payload.toString());
+                System.out.println("run:"+clientRequest.payload.toString());
                 //reagisci al messaggio
                 this.serverReact(clientRequest);
             }
@@ -103,12 +104,42 @@ public class GenericTask implements Runnable {
             protocol.sendMessage(new Message("Comando non corretto",400));
             return;
         }
+        System.out.println("richiesta factory: "+factoryrequest);
         UserCommand cmd = FactoryRegistry.getFactory(factoryrequest).createUserCommand(clientRequest.payload.split(" "));
-        cmd.toString();
-        // //esegui il comando
-        // cmd.execute();
+        //cmd.toString();
+        System.out.println("Comando fabbricato: "+cmd.getType());
+        Message responseMessage = new Message();
+        
+        System.out.println("Messaggio creato");
+        if (this.validateCommand(cmd)){
+            
+            cmd.execute(responseMessage);
+            //correggere
+            if (factoryrequest.equals("credentials") && (responseMessage.code == 200)){
+                this.onlineUser = cmd.getInfo()[0];
+            }
+        }else{
+            responseMessage.code = 400;
+            responseMessage.payload = "comando non corretto";
+        }   
         
         //risposta del server
-        protocol.sendMessage(new Message("ok"));
+        protocol.sendMessage(responseMessage);
+    }
+
+    private boolean validateCommand(UserCommand cmd){
+        if(cmd.getType().equals("credentials") && (cmd.getInfo()[0] == "none")){
+            return false;
+        }
+        if (cmd.getType().equals("none")){
+            return false;
+        }
+        if(cmd.getType().toLowerCase().contains("marketorder") || cmd.getType().toLowerCase().contains("stoporder") || cmd.getType().toLowerCase().contains("limitorder")){
+            //se utente non autenticato -> return false
+            if (this.onlineUser == null)return false;
+        }
+        return true;
     }
 }
+
+

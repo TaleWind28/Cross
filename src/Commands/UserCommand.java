@@ -1,5 +1,5 @@
 package Commands;
-
+import Communication.Message;
 import org.apache.commons.lang3.ArrayUtils;
 
 public abstract class UserCommand {
@@ -49,5 +49,6 @@ public String toString() {
            '}';
 }
 
-    public abstract void execute();
+    public abstract void execute(Message commandOutput);
+    public abstract String[] getInfo();
 }
