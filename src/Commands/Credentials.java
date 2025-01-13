@@ -32,36 +32,29 @@ public class Credentials extends UserCommand{
     }
 
     @Override
-    public void execute(Message output) {//correggere con strategy
+    public Message execute() {//correggere con strategy
         //per semplicità implemento con if
         switch(this.accessType.toLowerCase()){
             case "register":
                 //controllare che username non esista già
                 //memorizzare username e password
-                output.payload = "utente correttamente registrato col nome: "+this.getUsername();
-                output.code = 201;//created
-                return;
+                return new Message("utente correttamente registrato col nome: "+this.getUsername(),201);
             case "logout":
                 //controllare che username esista
                 //sloggare
-                output.payload = "utente correttamente sloggato: "+this.getUsername();
-                output.code = 200;
-                return;
+                return new Message("utente correttamente sloggato: "+this.getUsername(),200);
             case "login":
                 //controllare che username e password corrispondano
                 //si -> loggare
-                output.payload = "utente loggato correttamente col nome: "+this.getUsername();
-                output.code = 200;
-                return;
+                return new Message("utente correttamente loggato col nome: "+this.getUsername(),200);
             case "updateCredentials":
                 //controllare che username e password corrispondano
                 //si -> sostituire password esistente con nuova password
-                output.code = 200;
-                return;
+                return new Message("Credenziali aggiornate", 200);
         }
         
         
-        return;
+        return new Message();
         // throw new UnsupportedOperationException("Unimplemented method 'execute'");
     }
     

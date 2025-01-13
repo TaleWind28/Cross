@@ -49,6 +49,6 @@ public abstract class UserCommand {
            '}';
 }
 
-    public abstract void execute(Message commandOutput);
+    public abstract Message execute();
     public abstract String[] getInfo();
 }

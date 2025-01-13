@@ -114,9 +114,10 @@ public class GenericTask implements Runnable {
         //System.out.println(this.onlineUser);
         if (this.validateCommand(cmd)){
             //System.out.println("entro");
-            cmd.execute(responseMessage);
+            responseMessage = cmd.execute();
+            //System.out.println(responseMessage.payload+responseMessage.code);
             //Fare Strategy per credenziali
-            if (cmd.getInfo()[0].toLowerCase().equals("register") && (responseMessage.code == 201)){
+            if (cmd.getInfo()[0].toLowerCase().equals("login") && (responseMessage.code == 200)){
                 this.onlineUser = cmd.getInfo()[1];
                 System.out.println(this.onlineUser);
             }

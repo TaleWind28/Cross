@@ -51,11 +51,9 @@ public class Order extends UserCommand{
     }
 
     @Override
-    public void execute(Message output) {
-        output.code =  myBehaviour.executeOrder();
-        output.payload = "ordine inserito correttamente";
-        System.out.println("eseguito");
-        return;
+    public Message execute() {
+        //System.out.println(output.payload+output.code);
+        return myBehaviour.executeOrder(this);
     }
 
     @Override

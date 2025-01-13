@@ -1,4 +1,6 @@
 package Commands.OrderBehaviours;
+import Commands.Order;
+import Communication.Message;
 
 public abstract class OrderBehaviour {
     //implementare a modo passando un riferimento all'oggetto
@@ -6,7 +8,7 @@ public abstract class OrderBehaviour {
     
     private String behaviour;
     
-    public abstract int executeOrder();
+    public abstract Message executeOrder(Order ord);
     
     public String getBehaviour() {
         return behaviour;
