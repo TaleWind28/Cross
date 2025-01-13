@@ -3,14 +3,14 @@ import Communication.Message;
 public class Credentials extends UserCommand{
     private String accessType;
     private String username;
-    private String password;
-    private String newPassword;
+    private String password = new String();
+    private String newPassword = new String();
 
     public Credentials(String accessType,String user){
         super();
         setType("credentials");
         this.username = user;
-        this.accessType = "logout";
+        this.accessType = accessType;
     }
 
     public Credentials(String accessType,String user, String passwd){
@@ -79,31 +79,11 @@ public class Credentials extends UserCommand{
     
     @Override
     public String[] getInfo(){
-        
-        if (this.getType().equals("register")){
-            String[] info = new String[1];
-            info[0] = this.username;
-            return info;
-        }
-        
-        if (this.getType().equals("register")){
-            String[] info = new String[2];
-            info[0] = this.username;
-            info[1] = this.password;
-            return info;
-        }
-        
-        if (this.getType().equals("register")){
-            String[] info = new String[3];
-            info[0] = this.username;
-            info[1] = this.password;
-            info[2] = this.newPassword;
-            return info;
-        }
-        String[] info = new String[3];
-            info[0] = this.username;
-            info[1] = this.password;
-            info[2] = this.newPassword;
+        String[] info = new String[4];
+        info[0] = this.accessType;
+        info[1] = this.username;
+        info[2] = this.password;
+        info[3] = this.newPassword;
         return info;
     }
 }
