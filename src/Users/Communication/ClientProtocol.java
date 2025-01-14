@@ -1,4 +1,4 @@
-package Communication;
+package Users.Communication;
 
 import java.util.Scanner;
 

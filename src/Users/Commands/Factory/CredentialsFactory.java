@@ -1,7 +1,7 @@
-package Commands.Factory;
+package Users.Commands.Factory;
 
-import Commands.Credentials;
-import Commands.UserCommand;
+import Users.Commands.Credentials;
+import Users.Commands.UserCommand;
 
 public class CredentialsFactory implements UserCommandFactory{
 

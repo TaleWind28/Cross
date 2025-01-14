@@ -6,12 +6,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import Communication.Message;
-import Communication.Protocol;
-import Communication.ServerProtocol;
-
-import Commands.*;
-import Commands.Factory.FactoryRegistry;
+import Users.Commands.*;
+import Users.Commands.Factory.FactoryRegistry;
+import Users.Communication.Message;
+import Users.Communication.Protocol;
+import Users.Communication.ServerProtocol;
 
 public class GenericTask implements Runnable {
     private Socket client;
@@ -106,17 +105,18 @@ public class GenericTask implements Runnable {
         }
         System.out.println("richiesta factory: "+factoryrequest);
         UserCommand cmd = FactoryRegistry.getFactory(factoryrequest).createUserCommand(clientRequest.payload.split(" "));
-        //cmd.toString();
         System.out.println("Comando fabbricato: "+cmd.toString());
         Message responseMessage = new Message();
-        
         System.out.println("Messaggio creato");
         //System.out.println(this.onlineUser);
         if (this.validateCommand(cmd)){
             //System.out.println("entro");
+            //recupero orederbook/userbook dal server
+            //this.disconnectBehaviour.
+            //li passo alla execute
+            //scrivere alla ricci se ha senso usare treemap o concurrentSkipListMap
             responseMessage = cmd.execute();
             //System.out.println(responseMessage.payload+responseMessage.code);
-            //Fare Strategy per credenziali
             if (cmd.getInfo()[0].toLowerCase().equals("login") && (responseMessage.code == 200)){
                 this.onlineUser = cmd.getInfo()[1];
                 System.out.println(this.onlineUser);

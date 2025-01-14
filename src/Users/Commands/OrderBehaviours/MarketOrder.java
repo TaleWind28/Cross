@@ -1,6 +1,6 @@
-package Commands.OrderBehaviours;
-import Commands.Order;
-import Communication.Message;
+package Users.Commands.OrderBehaviours;
+import Users.Commands.Order;
+import Users.Communication.Message;
 
 public class MarketOrder extends OrderBehaviour {
     public MarketOrder(){

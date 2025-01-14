@@ -1,15 +1,20 @@
-package Commands;
-import Commands.OrderBehaviours.LimitOrder;
-import Commands.OrderBehaviours.MarketOrder;
-import Commands.OrderBehaviours.OrderBehaviour;
-import Commands.OrderBehaviours.StopOrder;
-import Communication.Message;
+package Users.Commands;
+import java.util.concurrent.ConcurrentHashMap;
+
+import Users.User;
+import Users.Commands.OrderBehaviours.LimitOrder;
+import Users.Commands.OrderBehaviours.MarketOrder;
+import Users.Commands.OrderBehaviours.OrderBehaviour;
+import Users.Commands.OrderBehaviours.StopOrder;
+import Users.Communication.Message;
+
 
 public class Order extends UserCommand{
     protected String reqType;
     protected int size;
     protected int treshold;
     protected OrderBehaviour myBehaviour;
+    protected ConcurrentHashMap<String, User> map;
     
     public Order(String[] input){
         super(input);

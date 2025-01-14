@@ -1,4 +1,4 @@
-package Communication;
+package Users.Communication;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.io.BufferedReader;

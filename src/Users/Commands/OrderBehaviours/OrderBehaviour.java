@@ -1,6 +1,6 @@
-package Commands.OrderBehaviours;
-import Commands.Order;
-import Communication.Message;
+package Users.Commands.OrderBehaviours;
+import Users.Commands.Order;
+import Users.Communication.Message;
 
 public abstract class OrderBehaviour {
     //implementare a modo passando un riferimento all'oggetto

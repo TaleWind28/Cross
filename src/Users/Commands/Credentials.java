@@ -1,5 +1,5 @@
-package Commands;
-import Communication.Message;
+package Users.Commands;
+import Users.Communication.Message;
 public class Credentials extends UserCommand{
     private String accessType;
     private String username;

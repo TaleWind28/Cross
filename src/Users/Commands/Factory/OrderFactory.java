@@ -1,7 +1,7 @@
-package Commands.Factory;
+package Users.Commands.Factory;
 
-import Commands.Order;
-import Commands.UserCommand;
+import Users.Commands.Order;
+import Users.Commands.UserCommand;
 
 public class OrderFactory implements UserCommandFactory{
 

@@ -1,4 +1,4 @@
-package Communication;
+package Users.Communication;
 /*
  * Codici HTTP
  * 200 OK

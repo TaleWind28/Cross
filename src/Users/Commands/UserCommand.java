@@ -1,10 +1,15 @@
-package Commands;
-import Communication.Message;
+package Users.Commands;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 import org.apache.commons.lang3.ArrayUtils;
+
+import Users.Communication.Message;
 
 public abstract class UserCommand {
     private String type;
     private String[] payload;
+    private ConcurrentMap map;
     
     public UserCommand(){
 

@@ -1,6 +1,6 @@
-package Commands.Factory;
+package Users.Commands.Factory;
 
-import Commands.UserCommand;
+import Users.Commands.UserCommand;
 
 public interface UserCommandFactory {
     public UserCommand createUserCommand(String[] command);

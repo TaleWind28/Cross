@@ -1,10 +1,10 @@
-import Communication.ClientProtocol;
-import Communication.Message;
-import Communication.TCP;
-
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
+
+import Users.Communication.ClientProtocol;
+import Users.Communication.Message;
+import Users.Communication.TCP;
 
 
 public class ClientMain extends ClientProtocol{
