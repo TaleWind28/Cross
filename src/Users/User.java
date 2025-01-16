@@ -4,12 +4,10 @@ public class User {
     private String password;
     private boolean isLogged;
     
-    public String getPassword() {
-        return password;
-    }
-    
-    public String getUsername() {
-        return username;
+    public User(String username, String password){
+        this.username = username;
+        this.password = password;
+        this.isLogged = false;
     }
 
     public void setLogged(boolean isLogged) {
@@ -24,7 +22,27 @@ public class User {
         this.username = username;
     }
 
+    public String getPassword() {
+        return password;
+    }
+    
+    public String getUsername() {
+        return username;
+    }
+
+    
+
     public boolean getLogged(){
         return this.isLogged;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+           "username='" + username + '\'' +
+           ", password='" + password + '\'' +
+           ", isLogged=" + isLogged +
+           '}';
+    }
+
 }

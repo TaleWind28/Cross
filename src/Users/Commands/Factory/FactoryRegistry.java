@@ -2,6 +2,8 @@ package Users.Commands.Factory;
 import java.util.HashMap;
 import java.util.Map;
 
+import JsonMemories.JsonAccessedData;
+
 public class FactoryRegistry {
 
     private static final Map<String, UserCommandFactory> factories = new HashMap<>();
@@ -18,4 +20,8 @@ public class FactoryRegistry {
         }
         return factory;
     }
+
+    public void updateFactoryData(String factoryname,JsonAccessedData data){
+        return;
+    }   
 }

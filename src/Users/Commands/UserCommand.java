@@ -1,15 +1,13 @@
 package Users.Commands;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import org.apache.commons.lang3.ArrayUtils;
-
+import JsonMemories.JsonAccessedData;
 import Users.Communication.Message;
 
 public abstract class UserCommand {
     private String type;
     private String[] payload;
-    private ConcurrentMap map;
+    private JsonAccessedData commandData;
     
     public UserCommand(){
 
@@ -35,6 +33,11 @@ public abstract class UserCommand {
     public String[] getPayload() {
         return payload;
     }
+
+    public JsonAccessedData getCommandData() {
+        return commandData;
+    }
+
     @Override
     public String toString() {
         StringBuilder payloadString = new StringBuilder();

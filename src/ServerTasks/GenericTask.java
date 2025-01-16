@@ -10,13 +10,13 @@ import Users.Commands.*;
 import Users.Commands.Factory.FactoryRegistry;
 import Users.Communication.Message;
 import Users.Communication.Protocol;
-import Users.Communication.ServerProtocol;
+import Executables.ServerMain;
 
 public class GenericTask implements Runnable {
     private Socket client;
     private long CONNECTION_TIMEOUT = 60;//tempo in secondi
     //private GameFactory factory;
-    private ServerProtocol disconnectBehaviour;
+    private ServerMain generatorServer;
     private ScheduledExecutorService timeoutScheduler;
     private ScheduledFuture<?> timeoutTask;
     private Protocol protocol;
@@ -29,17 +29,17 @@ public class GenericTask implements Runnable {
         protocol.setSender(client_socket);
         protocol.setReceiver(client_socket);
         this.timeoutScheduler = Executors.newSingleThreadScheduledExecutor();
-        //this.disconnectBehaviour = null; 
+        //this.generatorServer = null; 
     }
     //overloading
-    public GenericTask(Socket client_socket,ServerProtocol disconnection,Protocol protocol) throws Exception{
+    public GenericTask(Socket client_socket,ServerMain server,Protocol protocol) throws Exception{
         super();
         this.client = client_socket;
         this.protocol = protocol;
-        protocol.setSender(client_socket);
-        protocol.setReceiver(client_socket);
+        this.protocol.setSender(client_socket);
+        this.protocol.setReceiver(client_socket);
         this.timeoutScheduler = Executors.newSingleThreadScheduledExecutor();
-        this.disconnectBehaviour = disconnection; 
+        this.generatorServer = server; 
     }
     //overloading
     public GenericTask(Socket client_socket,String delimiter,Protocol protocol) throws Exception{
@@ -52,7 +52,7 @@ public class GenericTask implements Runnable {
     }
 
     public void run(){
-        DisconnectTask inactivityDisconnection = new DisconnectTask(this.protocol,this.client,this.disconnectBehaviour);
+        DisconnectTask inactivityDisconnection = new DisconnectTask(this.protocol,this.client,this.generatorServer);
         protocol.sendMessage(new Message("Per fare trading inserire un ordine di qualunque tipo"));
         try{
             while(!(Thread.currentThread().isInterrupted())){
@@ -75,7 +75,7 @@ public class GenericTask implements Runnable {
             return;
         }
         catch(NullPointerException e){
-            this.disconnectBehaviour.onClientDisconnect(client, "Disconnessione Client");
+            this.generatorServer.onClientDisconnect(client, "Disconnessione Client");
             return;
         }
         catch(Exception e){
@@ -90,7 +90,7 @@ public class GenericTask implements Runnable {
         //disconnessione volontaria
         if(clientRequest.payload.equals("FIN")){
             protocol.sendMessage(new Message("FIN",200));
-            this.disconnectBehaviour.onClientDisconnect(client, "Client Disconnesso Volontariamente");
+            this.generatorServer.onClientDisconnect(client, "Client Disconnesso Volontariamente");
             this.timeoutTask.cancel(false);
             return;
         }
@@ -112,7 +112,7 @@ public class GenericTask implements Runnable {
         if (this.validateCommand(cmd)){
             //System.out.println("entro");
             //recupero orederbook/userbook dal server
-            //this.disconnectBehaviour.
+            //this.generatorServer.
             //li passo alla execute
             //scrivere alla ricci se ha senso usare treemap o concurrentSkipListMap
             responseMessage = cmd.execute();

@@ -1,23 +1,20 @@
-import java.io.FileReader;
+package Executables;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ConcurrentHashMap;
-
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
-
+import JsonMemories.Userbook;
 import ServerTasks.*;
-import Users.User;
 import Users.Communication.ServerProtocol;
 import Users.Communication.TCP;
 
     
 public class ServerMain extends ServerProtocol{
-    //private ConcurrentHashMap orderBook;
-    private ConcurrentHashMap<String,User> registeredUsers;
+    //private Map<String,User> registeredUsers = new ConcurrentHashMap<>();
+    private Userbook registeredUsers;
+    //l'orderbook deve essere una classe a sè con tante mappe per ordini
+    //private Map orderbook = new TreeMap<String,Integer>();
     public ServerMain(int port, int numThreads){
         super(port,numThreads);
-        this.registeredUsers = new ConcurrentHashMap<>();
+        this.registeredUsers = new Userbook("src\\JsonFiles\\Users.json");
     }
 
     public static void main(String[] args) throws Exception {
@@ -44,16 +41,8 @@ public class ServerMain extends ServerProtocol{
     }
     
     public void initialConfig(){
-        try (JsonReader reader = new JsonReader(new FileReader("JsonFile/Users.json")))  {
-            reader.beginArray();
-            Gson gson = new Gson();
-            while(reader.hasNext()){
-                User us = gson.fromJson(reader,User.class);
-                this.registeredUsers.put(us.getUsername(), us);
-            }
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
+        this.registeredUsers.loadData();
+        //this.registeredUsers.addData(new User("Alessia","Cesare98"));
         return;
     }
 }
