@@ -1,10 +1,13 @@
 package Users.Commands;
+import JsonMemories.Userbook;
+import Users.User;
 import Users.Communication.Message;
 public class Credentials extends UserCommand{
     private String accessType;
     private String username;
     private String password = new String();
     private String newPassword = new String();
+    private Userbook userbook;
 
     public Credentials(String accessType,String user){
         super();
@@ -13,15 +16,24 @@ public class Credentials extends UserCommand{
         this.accessType = accessType;
     }
 
-    public Credentials(String accessType,String user, String passwd){
+    public Credentials(String accessType,String user, Userbook userbook){
+        super();
+        setType("credentials");
+        this.username = user;
+        this.accessType = accessType;
+        this.userbook = userbook;
+    }
+
+    public Credentials(String accessType,String user, String passwd, Userbook userbook){
         super();
         setType("credentials");
         this.username = user;
         this.password = passwd;
         this.accessType = accessType;
+        this.userbook = userbook;
     }
 
-    public Credentials(String accessType,String user, String passwd, String newPasswd){
+    public Credentials(String accessType,String user, String passwd, String newPasswd, Userbook userbook){
         super();
         setType("credentials");
         this.accessType = "updateCredentials";
@@ -29,6 +41,7 @@ public class Credentials extends UserCommand{
         this.password = passwd;
         this.newPassword = newPasswd;
         this.accessType = accessType;
+        this.userbook = userbook;
     }
 
     @Override
@@ -37,7 +50,9 @@ public class Credentials extends UserCommand{
         switch(this.accessType.toLowerCase()){
             case "register":
                 //controllare che username non esista già
+                if(this.userbook.accessData(this.username) == 200)return new Message();
                 //memorizzare username e password
+                this.userbook.addData(new User(this.username, this.password));
                 return new Message("utente correttamente registrato col nome: "+this.getUsername(),201);
             case "logout":
                 //controllare che username esista

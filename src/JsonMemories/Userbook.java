@@ -23,9 +23,10 @@ public class Userbook implements JsonAccessedData{
 
     //cerco sulla mappa
     @Override
-    public void accessData(String name) {
+    public int accessData(String name) {
+        if (this.userMap.containsKey(name))return 200;
         System.out.println(this.userMap.get(name).toString());
-        return;
+        return 404;
     }
 
     //carico la mappa in una struttura dati
