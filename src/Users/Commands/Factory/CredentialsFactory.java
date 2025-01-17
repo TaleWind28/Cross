@@ -1,13 +1,14 @@
 package Users.Commands.Factory;
 
+import JsonMemories.JsonAccessedData;
 import JsonMemories.Userbook;
 import Users.Commands.Credentials;
 import Users.Commands.UserCommand;
 
 public class CredentialsFactory implements UserCommandFactory{
     private Userbook userbook;
-    public void setUserbook(Userbook userbook) {
-        this.userbook = userbook;
+    public void setJsonDataStructure(JsonAccessedData userbook) {
+        this.userbook = (Userbook)userbook;
     }
 
     @Override
@@ -23,13 +24,17 @@ public class CredentialsFactory implements UserCommandFactory{
                     return new Credentials(type,username,userbook);
                 case "register":
                     password = command[2];
-                    return new Credentials(type,username,password,userbook);
+                    System.out.println("Comando Register:\nusername: "+username+", password: "+password);
+                    Credentials cred = new Credentials(type,username,password,userbook);
+                    return cred;
                 case "login":
                     password = command[2];
+                    //System.out.println("passwd: "+password);
                     return new Credentials(type,username,password,userbook);
-                case "updateCredentials":
+                case "updatecredentials":
                     password = command[2];
                     newPassword = command[3];
+                    System.out.println("password:"+password+",newpassword: "+newPassword);
                     return new Credentials(type,username,password,newPassword,userbook);
             }
             return new Credentials("none",username);

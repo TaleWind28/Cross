@@ -1,5 +1,6 @@
 package Users.Commands.Factory;
 
+import JsonMemories.JsonAccessedData;
 import Users.Commands.Order;
 import Users.Commands.UserCommand;
 
@@ -28,5 +29,10 @@ public class OrderFactory implements UserCommandFactory{
             System.out.println("out of bounds");
             return new Order("none","none",-5);
         }
+    }
+
+    @Override
+    public void setJsonDataStructure(JsonAccessedData data) {
+        throw new UnsupportedOperationException("Unimplemented method 'setJsonDataStructure'");
     } 
 }

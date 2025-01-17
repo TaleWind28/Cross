@@ -1,6 +1,6 @@
 package Users.Commands.OrderBehaviours;
+import Communication.Message;
 import Users.Commands.Order;
-import Users.Communication.Message;
 
 public class LimitOrder extends OrderBehaviour{
     public LimitOrder(){

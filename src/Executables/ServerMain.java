@@ -1,12 +1,13 @@
 package Executables;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import Communication.ServerProtocol;
+import Communication.TCP;
 import JsonMemories.Userbook;
 import ServerTasks.*;
-import Users.Communication.ServerProtocol;
-import Users.Communication.TCP;
+import Users.Commands.Factory.FactoryRegistry;
 
-    
 public class ServerMain extends ServerProtocol{
     //private Map<String,User> registeredUsers = new ConcurrentHashMap<>();
     private Userbook registeredUsers;
@@ -42,6 +43,7 @@ public class ServerMain extends ServerProtocol{
     
     public void initialConfig(){
         this.registeredUsers.loadData();
+        FactoryRegistry.updateFactoryData("credentials", registeredUsers);
         //this.registeredUsers.addData(new User("Alessia","Cesare98"));
         return;
     }

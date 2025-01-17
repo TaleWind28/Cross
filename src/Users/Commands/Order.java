@@ -1,12 +1,12 @@
 package Users.Commands;
 import java.util.concurrent.ConcurrentHashMap;
 
+import Communication.Message;
 import Users.User;
 import Users.Commands.OrderBehaviours.LimitOrder;
 import Users.Commands.OrderBehaviours.MarketOrder;
 import Users.Commands.OrderBehaviours.OrderBehaviour;
 import Users.Commands.OrderBehaviours.StopOrder;
-import Users.Communication.Message;
 
 
 public class Order extends UserCommand{

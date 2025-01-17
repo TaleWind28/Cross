@@ -1,4 +1,4 @@
-package Users.Communication;
+package Communication;
 
 import java.net.Socket;
 

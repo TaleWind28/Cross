@@ -1,4 +1,4 @@
-package Users.Communication;
+package Communication;
 
 public class CommunicationProtocol {
     public Protocol protocol;

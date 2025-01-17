@@ -1,7 +1,27 @@
 {
+  "Cydonia": {
+    "username": "Cydonia",
+    "password": "Chiara",
+    "isLogged": false
+  },
   "Alessia": {
     "username": "Alessia",
     "password": "Cesare98",
+    "isLogged": false
+  },
+  "TaleWind": {
+    "username": "TaleWind",
+    "password": "MaMa2002..",
+    "isLogged": false
+  },
+  "pippo": {
+    "username": "pippo",
+    "password": "cane",
+    "isLogged": false
+  },
+  "pino": {
+    "username": "pino",
+    "password": "i",
     "isLogged": false
   }
 }

@@ -1,8 +1,9 @@
 package Users.Commands;
 
 import org.apache.commons.lang3.ArrayUtils;
+
+import Communication.Message;
 import JsonMemories.JsonAccessedData;
-import Users.Communication.Message;
 
 public abstract class UserCommand {
     private String type;

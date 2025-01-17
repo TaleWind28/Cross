@@ -6,10 +6,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import Communication.Message;
+import Communication.Protocol;
 import Users.Commands.*;
 import Users.Commands.Factory.FactoryRegistry;
-import Users.Communication.Message;
-import Users.Communication.Protocol;
 import Executables.ServerMain;
 
 public class GenericTask implements Runnable {
@@ -110,12 +110,9 @@ public class GenericTask implements Runnable {
         System.out.println("Messaggio creato");
         //System.out.println(this.onlineUser);
         if (this.validateCommand(cmd)){
-            //System.out.println("entro");
-            //recupero orederbook/userbook dal server
-            //this.generatorServer.
-            //li passo alla execute
-            //scrivere alla ricci se ha senso usare treemap o concurrentSkipListMap
+            System.out.println("vado in execute");
             responseMessage = cmd.execute();
+            System.out.println("dopo execute");
             //System.out.println(responseMessage.payload+responseMessage.code);
             if (cmd.getInfo()[0].toLowerCase().equals("login") && (responseMessage.code == 200)){
                 this.onlineUser = cmd.getInfo()[1];
@@ -127,6 +124,7 @@ public class GenericTask implements Runnable {
         }   
         
         //risposta del server
+        System.out.println("Messaggio generato:\nPayload: "+responseMessage.payload+", code: "+responseMessage.code);
         protocol.sendMessage(responseMessage);
     }
 

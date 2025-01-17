@@ -2,9 +2,9 @@ package ServerTasks;
 
 import java.net.Socket;
 
-import Users.Communication.Message;
-import Users.Communication.Protocol;
-import Users.Communication.ServerProtocol;
+import Communication.Message;
+import Communication.Protocol;
+import Communication.ServerProtocol;
 
 public class DisconnectTask implements Runnable{
     private Protocol protocol;
