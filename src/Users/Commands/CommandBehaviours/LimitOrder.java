@@ -1,12 +1,8 @@
-package Users.Commands.OrderBehaviours;
+package Users.Commands.CommandBehaviours;
 import Communication.Message;
 import Users.Commands.UserCommand;
 
-public class LimitOrder extends OrderBehaviour{
-    public LimitOrder(){
-        super();
-        setBehaviour("limit_order");
-    }
+public class LimitOrder implements CommandBehaviour{
     public Message executeOrder(UserCommand ord){
         System.out.println("limitorder: "+ord.getInfo());
         return new Message("limitorder",200);

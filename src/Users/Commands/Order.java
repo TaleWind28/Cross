@@ -5,10 +5,10 @@ import Communication.Message;
 import JsonMemories.JsonAccessedData;
 import JsonMemories.Orderbook;
 import Users.User;
-import Users.Commands.OrderBehaviours.LimitOrder;
-import Users.Commands.OrderBehaviours.MarketOrder;
-import Users.Commands.OrderBehaviours.OrderBehaviour;
-import Users.Commands.OrderBehaviours.StopOrder;
+import Users.Commands.CommandBehaviours.LimitOrder;
+import Users.Commands.CommandBehaviours.MarketOrder;
+import Users.Commands.CommandBehaviours.CommandBehaviour;
+import Users.Commands.CommandBehaviours.StopOrder;
 
 
 public class Order implements UserCommand{
@@ -16,7 +16,7 @@ public class Order implements UserCommand{
     protected int size;
     protected int treshold;
     protected String type;
-    protected OrderBehaviour myBehaviour;
+    protected CommandBehaviour myBehaviour;
     protected ConcurrentHashMap<String, User> map;
     protected Orderbook orderbook;
     
@@ -52,7 +52,7 @@ public class Order implements UserCommand{
         //setBehaviour(new MarketOrder());
     }
 
-    public void setBehaviour(OrderBehaviour behaviour){
+    public void setBehaviour(CommandBehaviour behaviour){
         this.myBehaviour = behaviour;
         return;
     }

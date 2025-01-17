@@ -1,10 +1,10 @@
-package Users.Commands.OrderBehaviours;
+package Users.Commands.CommandBehaviours;
 
 import Communication.Message;
 import JsonMemories.Userbook;
 import Users.Commands.UserCommand;
 
-public class Logout extends OrderBehaviour{
+public class Logout implements CommandBehaviour{
 
     @Override
     public Message executeOrder(UserCommand cmd) {

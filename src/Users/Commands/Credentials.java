@@ -2,8 +2,8 @@ package Users.Commands;
 import Communication.Message;
 import JsonMemories.JsonAccessedData;
 import JsonMemories.Userbook;
-import Users.Commands.OrderBehaviours.OrderBehaviour;
-import Users.Commands.OrderBehaviours.UpdateCredentials;
+import Users.Commands.CommandBehaviours.CommandBehaviour;
+import Users.Commands.CommandBehaviours.UpdateCredentials;
 public class Credentials implements UserCommand{
     private String type = "credentials";
     private String accessType;
@@ -11,14 +11,14 @@ public class Credentials implements UserCommand{
     private String password = new String();
     private String newPassword = new String();
     private Userbook userbook;
-    private OrderBehaviour myBehaviour;
+    private CommandBehaviour myBehaviour;
 
     public Credentials(String accessType,String user){
         this.username = user;
         this.accessType = accessType;
     }
 
-    public Credentials(String accessType,String user, Userbook userbook,OrderBehaviour behaviour){
+    public Credentials(String accessType,String user, Userbook userbook,CommandBehaviour behaviour){
         this.username = user;
         this.accessType = accessType;
         this.userbook = userbook;
@@ -26,7 +26,7 @@ public class Credentials implements UserCommand{
         //setPayload({user,accessType});
     }
 
-    public Credentials(String accessType,String user, String passwd, Userbook userbook, OrderBehaviour behaviour){
+    public Credentials(String accessType,String user, String passwd, Userbook userbook, CommandBehaviour behaviour){
         this.username = user;
         this.password = passwd;
         this.accessType = accessType;

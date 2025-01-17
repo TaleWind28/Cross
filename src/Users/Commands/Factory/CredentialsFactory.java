@@ -4,9 +4,9 @@ import JsonMemories.JsonAccessedData;
 import JsonMemories.Userbook;
 import Users.Commands.Credentials;
 import Users.Commands.UserCommand;
-import Users.Commands.OrderBehaviours.Login;
-import Users.Commands.OrderBehaviours.Logout;
-import Users.Commands.OrderBehaviours.Register;
+import Users.Commands.CommandBehaviours.Login;
+import Users.Commands.CommandBehaviours.Logout;
+import Users.Commands.CommandBehaviours.Register;
 
 public class CredentialsFactory implements UserCommandFactory{
     private Userbook userbook;

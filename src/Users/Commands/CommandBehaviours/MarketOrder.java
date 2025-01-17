@@ -1,12 +1,8 @@
-package Users.Commands.OrderBehaviours;
+package Users.Commands.CommandBehaviours;
 import Communication.Message;
 import Users.Commands.UserCommand;
 
-public class MarketOrder extends OrderBehaviour {
-    public MarketOrder(){
-        super();
-        setBehaviour("market_order");
-    }
+public class MarketOrder implements CommandBehaviour {
     @Override
     public Message executeOrder(UserCommand ord){
         System.out.println("marketorder: "+ord.getInfo());

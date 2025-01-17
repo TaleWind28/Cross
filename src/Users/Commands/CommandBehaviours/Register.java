@@ -1,11 +1,11 @@
-package Users.Commands.OrderBehaviours;
+package Users.Commands.CommandBehaviours;
 
 import Communication.Message;
 import JsonMemories.Userbook;
 import Users.User;
 import Users.Commands.UserCommand;
 
-public class Register extends OrderBehaviour{
+public class Register implements CommandBehaviour{
     //private Userbook userbook;
     
     @Override

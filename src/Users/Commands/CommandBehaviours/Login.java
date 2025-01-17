@@ -1,11 +1,11 @@
-package Users.Commands.OrderBehaviours;
+package Users.Commands.CommandBehaviours;
 
 import Communication.Message;
 import JsonMemories.Userbook;
 import Users.User;
 import Users.Commands.UserCommand;
 
-public class Login extends OrderBehaviour {
+public class Login implements CommandBehaviour {
 
     @Override
     public Message executeOrder(UserCommand cmd) {
