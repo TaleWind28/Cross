@@ -100,27 +100,45 @@ public class GenericTask implements Runnable {
         if(clientRequest.payload.toLowerCase().contains("marketorder") || clientRequest.payload.toLowerCase().contains("stoporder") || clientRequest.payload.toLowerCase().contains("limitorder")){
             factoryrequest = "order";
         }else{
-            protocol.sendMessage(new Message("Comando non corretto",400));
+            protocol.sendMessage(new Message("Comando non disponibile",400));
             return;
         }
         System.out.println("richiesta factory: "+factoryrequest);
         UserCommand cmd = FactoryRegistry.getFactory(factoryrequest).createUserCommand(clientRequest.payload.split(" "));
         System.out.println("Comando fabbricato: "+cmd.toString());
+        
         Message responseMessage = new Message();
-        System.out.println("Messaggio creato");
+        
+        //System.out.println("Messaggio creato");
+        // if(cmd.getInfo()[1].equals("none")){
+        //     responseMessage.payload = "Comando Errato, digitare aiuto per una lista di comandi disponibili";
+        //     responseMessage.code = 400;
+        //     this.protocol.sendMessage(responseMessage);
+        //     System.out.println(responseMessage.toString());
+        //     return;
+        // }
         //System.out.println(this.onlineUser);
         if (this.validateCommand(cmd)){
-            System.out.println("vado in execute");
+            //System.out.println("vado in execute");
             responseMessage = cmd.execute();
-            System.out.println("dopo execute");
+            //System.out.println("dopo execute");
             //System.out.println(responseMessage.payload+responseMessage.code);
             if (cmd.getInfo()[0].toLowerCase().equals("login") && (responseMessage.code == 200)){
                 this.onlineUser = cmd.getInfo()[1];
                 System.out.println(this.onlineUser);
             }
+            if(cmd.getInfo()[0].toLowerCase().equals("logout") && (responseMessage.code == 200)){
+                this.onlineUser = "";
+            }
         }else{
-            if(this.onlineUser.equals(""))responseMessage.code = 401;
-            else responseMessage.code = 400;
+            if(this.onlineUser.equals("")){
+                responseMessage.code = 401;
+                responseMessage.payload = "401: Autorizzazione Richiesta!";
+            }
+            else {
+                responseMessage.code = 400;
+                responseMessage.payload = "Comando Errato";
+            }
         }   
         
         //risposta del server
@@ -129,15 +147,17 @@ public class GenericTask implements Runnable {
     }
 
     private boolean validateCommand(UserCommand cmd){
-        if(cmd.getType().equals("credentials") && (cmd.getInfo()[0] == "none")){
+        if(cmd.getType().equals("credentials") && (cmd.getInfo()[1] == "none")){
             return false;
         }
         if (cmd.getType().equals("none")){
             return false;
         }
+        if (!cmd.getInfo()[1].equals(this.onlineUser) && (cmd.getInfo()[0].toLowerCase().equals("logout")||cmd.getInfo()[0].toLowerCase().equals("updatecredentials")))return false;
         
         if(cmd.getType().toLowerCase().contains("order")){
             //se utente non autenticato -> return false
+            System.out.println("controllo order");
             if (this.onlineUser.equals("")){
                 return false;
             }
