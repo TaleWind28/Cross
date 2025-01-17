@@ -9,28 +9,28 @@ import Users.Commands.OrderBehaviours.OrderBehaviour;
 import Users.Commands.OrderBehaviours.StopOrder;
 
 
-public class Order extends UserCommand{
+public class Order implements UserCommand{
     protected String reqType;
     protected int size;
     protected int treshold;
+    protected String type;
     protected OrderBehaviour myBehaviour;
     protected ConcurrentHashMap<String, User> map;
     
     public Order(String[] input){
-        super(input);
-        this.reqType = this.getPayload()[0];
-        this.size = Integer.parseInt(this.getPayload()[1]);
+        this.type = input[0];
+        this.reqType = input[1];
+        this.size = Integer.parseInt(input[2]);
         this.treshold = 0;
-        if(this.getPayload().length==3){
-            this.treshold = Integer.parseInt(this.getPayload()[2]);
+        if(input.length==4){
+            this.treshold = Integer.parseInt(input[3]);
         }
         //settare behaviour
     }
 
     //costruttore MarketOrder
     public Order(String orderType, String type, int size){
-        super();
-        super.setType(orderType);
+        this.type = orderType;
         this.myBehaviour = new MarketOrder();
         this.reqType = type;
         this.size = size;
@@ -40,8 +40,7 @@ public class Order extends UserCommand{
 
     //costruttore LimitOrder e StopOrder
     public Order(String orderType, String type, int size, int treshold){
-        super();
-        super.setType(orderType);
+        this.type = orderType;
         if (orderType.toLowerCase().contains("stoporder"))setBehaviour(new StopOrder());
         if (orderType.toLowerCase().contains("limitorder"))setBehaviour(new LimitOrder());
         this.reqType = type;
@@ -70,13 +69,18 @@ public class Order extends UserCommand{
         return info;
     }
     
+    @Override
+    public String getType() {
+        return this.type;
+    }
+
     public String toString() {
         return "Order{" +
-               "orderType='" + this.getType() + '\'' +
-               ", type='" + reqType + '\'' +
-               ", size=" + size +
-               ", treshold=" + treshold +
-               ", myBehaviour=" + (myBehaviour != null ? myBehaviour.toString() : "null") +
+               "orderType='" + this.type + '\'' +
+               ", type='" + this.reqType + '\'' +
+               ", size=" + this.size +
+               ", treshold=" + this.treshold +
+               ", myBehaviour=" + (this.myBehaviour != null ? this.myBehaviour.toString() : "null") +
                '}';
     }
 

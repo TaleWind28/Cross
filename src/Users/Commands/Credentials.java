@@ -2,7 +2,8 @@ package Users.Commands;
 import Communication.Message;
 import JsonMemories.Userbook;
 import Users.User;
-public class Credentials extends UserCommand{
+public class Credentials implements UserCommand{
+    private String type = "credentials";
     private String accessType;
     private String username;
     private String password = new String();
@@ -10,15 +11,11 @@ public class Credentials extends UserCommand{
     private Userbook userbook;
 
     public Credentials(String accessType,String user){
-        super();
-        setType("credentials");
         this.username = user;
         this.accessType = accessType;
     }
 
     public Credentials(String accessType,String user, Userbook userbook){
-        super();
-        setType("credentials");
         this.username = user;
         this.accessType = accessType;
         this.userbook = userbook;
@@ -26,8 +23,6 @@ public class Credentials extends UserCommand{
     }
 
     public Credentials(String accessType,String user, String passwd, Userbook userbook){
-        super();
-        setType("credentials");
         this.username = user;
         this.password = passwd;
         this.accessType = accessType;
@@ -35,8 +30,6 @@ public class Credentials extends UserCommand{
     }
 
     public Credentials(String accessType,String user, String passwd, String newPasswd, Userbook userbook){
-        super();
-        setType("credentials");
         this.accessType = "updateCredentials";
         this.username = user;
         this.password = passwd;
@@ -125,11 +118,16 @@ public class Credentials extends UserCommand{
 
     public String toString(){
         return "Credentials{" +
-               "credType='" + this.getType() + '\'' +
+               "credType='" + this.type + '\'' +
                ", username='" + this.username+ '\'' +
                ", passwd=" + this.password +
                ", newPasswd=" + this.newPassword +
                "," +
                '}';
+    }
+
+    @Override
+    public String getType() {
+        return this.type;
     }
 }
