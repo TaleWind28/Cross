@@ -2,6 +2,8 @@ package Users.Commands;
 import java.util.concurrent.ConcurrentHashMap;
 
 import Communication.Message;
+import JsonMemories.JsonAccessedData;
+import JsonMemories.Orderbook;
 import Users.User;
 import Users.Commands.OrderBehaviours.LimitOrder;
 import Users.Commands.OrderBehaviours.MarketOrder;
@@ -16,6 +18,7 @@ public class Order implements UserCommand{
     protected String type;
     protected OrderBehaviour myBehaviour;
     protected ConcurrentHashMap<String, User> map;
+    protected Orderbook orderbook;
     
     public Order(String[] input){
         this.type = input[0];
@@ -82,6 +85,11 @@ public class Order implements UserCommand{
                ", treshold=" + this.treshold +
                ", myBehaviour=" + (this.myBehaviour != null ? this.myBehaviour.toString() : "null") +
                '}';
+    }
+
+    @Override
+    public JsonAccessedData getJsonAccessedData() {
+        return this.orderbook;
     }
 
     

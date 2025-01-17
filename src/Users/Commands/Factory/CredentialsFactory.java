@@ -4,6 +4,9 @@ import JsonMemories.JsonAccessedData;
 import JsonMemories.Userbook;
 import Users.Commands.Credentials;
 import Users.Commands.UserCommand;
+import Users.Commands.OrderBehaviours.Login;
+import Users.Commands.OrderBehaviours.Logout;
+import Users.Commands.OrderBehaviours.Register;
 
 public class CredentialsFactory implements UserCommandFactory{
     private Userbook userbook;
@@ -21,16 +24,16 @@ public class CredentialsFactory implements UserCommandFactory{
             String newPassword = null;
             switch (type) {
                 case "logout":
-                    return new Credentials(type,username,userbook);
+                    return new Credentials(type,username,userbook,new Logout());
                 case "register":
                     password = command[2];
                     System.out.println("Comando Register:\nusername: "+username+", password: "+password);
-                    Credentials cred = new Credentials(type,username,password,userbook);
+                    Credentials cred = new Credentials(type,username,password,userbook,new Register());
                     return cred;
                 case "login":
                     password = command[2];
                     //System.out.println("passwd: "+password);
-                    return new Credentials(type,username,password,userbook);
+                    return new Credentials(type,username,password,userbook,new Login());
                 case "updatecredentials":
                     password = command[2];
                     newPassword = command[3];
