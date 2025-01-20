@@ -32,7 +32,7 @@
   "pippo": {
     "username": "pippo",
     "password": "Cane",
-    "isLogged": true
+    "isLogged": false
   },
   "paperino": {
     "username": "paperino",
