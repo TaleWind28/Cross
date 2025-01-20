@@ -2,6 +2,7 @@ package Users.Commands.CommandBehaviours;
 
 import Communication.Message;
 import JsonMemories.Userbook;
+import ServerTasks.GenericTask;
 import Users.User;
 import Users.Commands.UserCommand;
 
@@ -9,7 +10,7 @@ public class Register implements CommandBehaviour{
     //private Userbook userbook;
     
     @Override
-    public Message executeOrder(UserCommand cmd) {
+    public Message executeOrder(UserCommand cmd,GenericTask context) {
         System.out.println("Primo Controllo");
         //controllare che username non esista già
         String[] credentialsInfo = cmd.getInfo();
@@ -25,5 +26,8 @@ public class Register implements CommandBehaviour{
         System.out.println("entro");
         return new Message("utente correttamente registrato col nome: "+credentialsInfo[1],201);
     }
-
+    @Override
+    public int getUnicode() {
+        return 104;    
+    }
 }

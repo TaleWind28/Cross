@@ -4,6 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import Communication.Message;
 import JsonMemories.JsonAccessedData;
 import JsonMemories.Orderbook;
+import ServerTasks.GenericTask;
 import Users.User;
 import Users.Commands.CommandBehaviours.LimitOrder;
 import Users.Commands.CommandBehaviours.MarketOrder;
@@ -19,6 +20,7 @@ public class Order implements UserCommand{
     protected CommandBehaviour myBehaviour;
     protected ConcurrentHashMap<String, User> map;
     protected Orderbook orderbook;
+    protected int unicode;
     
     public Order(String[] input){
         this.type = input[0];
@@ -34,7 +36,7 @@ public class Order implements UserCommand{
     //costruttore MarketOrder
     public Order(String orderType, String type, int size){
         this.type = orderType;
-        this.myBehaviour = new MarketOrder();
+        setBehaviour(new MarketOrder());
         this.reqType = type;
         this.size = size;
         this.treshold = 0;
@@ -54,13 +56,14 @@ public class Order implements UserCommand{
 
     public void setBehaviour(CommandBehaviour behaviour){
         this.myBehaviour = behaviour;
+        this.unicode = behaviour.getUnicode();
         return;
     }
 
     @Override
-    public Message execute() {
+    public Message execute(GenericTask context) {
         //System.out.println(output.payload+output.code);
-        return myBehaviour.executeOrder(this);
+        return myBehaviour.executeOrder(this,context);
     }
 
     @Override
@@ -90,6 +93,11 @@ public class Order implements UserCommand{
     @Override
     public JsonAccessedData getJsonAccessedData() {
         return this.orderbook;
+    }
+
+    @Override
+    public int getUnicode() {
+        return this.unicode;
     }
 
     

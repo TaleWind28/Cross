@@ -1,12 +1,7 @@
 {
   "Cydonia": {
     "username": "Cydonia",
-    "password": "Chiara",
-    "isLogged": false
-  },
-  "f": {
-    "username": "f",
-    "password": "f",
+    "password": "chiara",
     "isLogged": false
   },
   "Alessia": {
@@ -22,6 +17,6 @@
   "pino": {
     "username": "pino",
     "password": "i",
-    "isLogged": true
+    "isLogged": false
   }
 }

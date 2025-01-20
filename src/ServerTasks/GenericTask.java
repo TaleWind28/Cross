@@ -20,7 +20,7 @@ public class GenericTask implements Runnable {
     private ScheduledExecutorService timeoutScheduler;
     private ScheduledFuture<?> timeoutTask;
     private Protocol protocol;
-    private String onlineUser = new String();
+    public String onlineUser = new String();
 
     public GenericTask(Socket client_socket,Protocol protocol) throws Exception{
         super();
@@ -85,15 +85,16 @@ public class GenericTask implements Runnable {
     }
 
     public void serverReact(Message clientRequest){
-        
+        //richiesta della factory oer creare il comando
         String factoryrequest = null;
-        //disconnessione volontaria
+        //disconnessione volontaria -> tecnicamente è un comando
         if(clientRequest.payload.equals("FIN")){
             protocol.sendMessage(new Message("FIN",200));
             this.generatorServer.onClientDisconnect(client, "Client Disconnesso Volontariamente");
             this.timeoutTask.cancel(false);
             return;
         }
+        //controllo il tipo di comando che mi serve
         if(clientRequest.payload.toLowerCase().contains("logout") || clientRequest.payload.toLowerCase().contains("login") || clientRequest.payload.toLowerCase().contains("updatecredentials") || clientRequest.payload.toLowerCase().contains("register")){
             factoryrequest = "credentials";
         }else
@@ -103,66 +104,53 @@ public class GenericTask implements Runnable {
             protocol.sendMessage(new Message("Comando non disponibile",400));
             return;
         }
+        //stampa di debug
         System.out.println("richiesta factory: "+factoryrequest);
+        //creo il comando richiedendo la factory
         UserCommand cmd = FactoryRegistry.getFactory(factoryrequest).createUserCommand(clientRequest.payload.split(" "));
+        //stampa di debug
         System.out.println("Comando fabbricato: "+cmd.toString());
-        
+        //creo il messaggio da inviare al client
         Message responseMessage = new Message();
-        
-        //System.out.println("Messaggio creato");
-        // if(cmd.getInfo()[1].equals("none")){
-        //     responseMessage.payload = "Comando Errato, digitare aiuto per una lista di comandi disponibili";
-        //     responseMessage.code = 400;
-        //     this.protocol.sendMessage(responseMessage);
-        //     System.out.println(responseMessage.toString());
-        //     return;
-        // }
-        //System.out.println(this.onlineUser);
-        if (this.validateCommand(cmd)){
-            //System.out.println("vado in execute");
-            responseMessage = cmd.execute();
-            //System.out.println("dopo execute");
-            //System.out.println(responseMessage.payload+responseMessage.code);
-            if (cmd.getInfo()[0].toLowerCase().equals("login") && (responseMessage.code == 200)){
-                this.onlineUser = cmd.getInfo()[1];
-                System.out.println(this.onlineUser);
-            }
-            if(cmd.getInfo()[0].toLowerCase().equals("logout") && (responseMessage.code == 200)){
-                this.onlineUser = "";
-            }
-        }else{
-            if(this.onlineUser.equals("")){
-                responseMessage.code = 401;
-                responseMessage.payload = "401: Autorizzazione Richiesta!";
-            }
-            else {
-                responseMessage.code = 400;
-                responseMessage.payload = "Comando Errato";
-            }
-        }   
-        
-        //risposta del server
+        //controllo la validità del comando
+        int confirmationCode = this.validate(cmd);
+        //stampa di debug
+        System.out.println(""+confirmationCode);
+        //se il codice non appartiene all'intervallo 100-107 allora non è un comando valido
+        if (confirmationCode <99 || confirmationCode>108){
+            //memorizzo il codice nel messaggio
+            responseMessage.code = confirmationCode;
+            //controllo su codici specifici per personalizzare la risposta
+            if(confirmationCode == 401)responseMessage.payload = responseMessage.code+": Non possiedi le autorizzazioni necessarie!";
+            //se non ho codici particolari allora il comando è malformato
+            else responseMessage.payload = responseMessage.code+": Comando non correttamente formulato";
+        }
+        //se il comando è valido lo eseguo
+        else responseMessage = cmd.execute(this);
+        //Stampa di debug -> risposta del server
         System.out.println("Messaggio generato:\nPayload: "+responseMessage.payload+", code: "+responseMessage.code);
+        //invio il messaggio al client
         protocol.sendMessage(responseMessage);
+        return;
     }
 
-    private boolean validateCommand(UserCommand cmd){
-        if(cmd.getType().equals("credentials") && (cmd.getInfo()[1] == "none")){
-            return false;
+    //controllo solo che il comando sia benformato -> avendo il contesto si potrebbe fare direttamente nel behaviour
+    private int validate(UserCommand cmd){
+        //
+        if(cmd.getType().equals("credentials") && (cmd.getInfo()[1] == "none"))return 400;
+        if (cmd.getType().equals("none"))return 400;
+        if (!cmd.getInfo()[1].equals(this.onlineUser) && (cmd.getInfo()[0].toLowerCase().equals("logout")||cmd.getInfo()[0].toLowerCase().equals("updatecredentials"))){
+            return 401;
         }
-        if (cmd.getType().equals("none")){
-            return false;
-        }
-        if (!cmd.getInfo()[1].equals(this.onlineUser) && (cmd.getInfo()[0].toLowerCase().equals("logout")||cmd.getInfo()[0].toLowerCase().equals("updatecredentials")))return false;
-        
         if(cmd.getType().toLowerCase().contains("order")){
-            //se utente non autenticato -> return false
-            System.out.println("controllo order");
+            //se l'utente non è loggato bisogna 
             if (this.onlineUser.equals("")){
-                return false;
+                return 401;
             }
-        }
-        return true;
+        } 
+        //codici riconoscitivi dei comandi -> 104 - 107 sono Credentials, 100 - 103 sono Order 
+        return cmd.getUnicode();
+        //return 0;
     }
 }
 

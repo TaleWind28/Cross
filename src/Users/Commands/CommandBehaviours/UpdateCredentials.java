@@ -2,13 +2,14 @@ package Users.Commands.CommandBehaviours;
 
 import Communication.Message;
 import JsonMemories.Userbook;
+import ServerTasks.GenericTask;
 import Users.User;
 import Users.Commands.UserCommand;
 
 public class UpdateCredentials implements CommandBehaviour{
 
     @Override
-    public Message executeOrder(UserCommand cmd) {
+    public Message executeOrder(UserCommand cmd,GenericTask context) {
         String[] credentialsInfo = cmd.getInfo();
         Userbook userbook = (Userbook)cmd.getJsonAccessedData();
 
@@ -21,6 +22,9 @@ public class UpdateCredentials implements CommandBehaviour{
         userbook.dataFlush();
         return new Message("Credenziali aggiornate", 200);
     }
-
+    @Override
+    public int getUnicode() {
+        return 107;    
+    }
 }
 

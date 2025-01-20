@@ -2,8 +2,9 @@ package Users.Commands;
 import Communication.Message;
 import JsonMemories.JsonAccessedData;
 import JsonMemories.Userbook;
+import ServerTasks.GenericTask;
 import Users.Commands.CommandBehaviours.CommandBehaviour;
-import Users.Commands.CommandBehaviours.UpdateCredentials;
+
 public class Credentials implements UserCommand{
     private String type = "credentials";
     private String accessType;
@@ -12,6 +13,7 @@ public class Credentials implements UserCommand{
     private String newPassword = new String();
     private Userbook userbook;
     private CommandBehaviour myBehaviour;
+    private int unicode;
 
     public Credentials(String accessType,String user){
         this.username = user;
@@ -23,6 +25,7 @@ public class Credentials implements UserCommand{
         this.accessType = accessType;
         this.userbook = userbook;
         this.myBehaviour = behaviour;
+        this.unicode = behaviour.getUnicode();
         //setPayload({user,accessType});
     }
 
@@ -32,22 +35,23 @@ public class Credentials implements UserCommand{
         this.accessType = accessType;
         this.userbook = userbook;
         this.myBehaviour = behaviour;
+        this.unicode = behaviour.getUnicode();
     }
 
-    public Credentials(String accessType,String user, String passwd, String newPasswd, Userbook userbook){
-        this.accessType = "updateCredentials";
+    public Credentials(String accessType,String user, String passwd, String newPasswd, Userbook userbook, CommandBehaviour behaviour){
+        this.accessType = accessType;
         this.username = user;
         this.password = passwd;
         this.newPassword = newPasswd;
         this.accessType = accessType;
         this.userbook = userbook;
-        //pensare se passare lo userbook direttamente dal costruttore
-        this.myBehaviour = new UpdateCredentials();
+        this.myBehaviour = behaviour;
+        this.unicode = behaviour.getUnicode();
     }
 
     @Override
-    public Message execute() {
-        return this.myBehaviour.executeOrder(this);
+    public Message execute(GenericTask context) {
+        return this.myBehaviour.executeOrder(this,context);
     }
     
     public String getUsername() {
@@ -90,5 +94,9 @@ public class Credentials implements UserCommand{
 	@Override
 	public JsonAccessedData getJsonAccessedData() {
         return this.userbook;
+    }
+
+    public int getUnicode() {
+        return this.unicode;
     }
 }
