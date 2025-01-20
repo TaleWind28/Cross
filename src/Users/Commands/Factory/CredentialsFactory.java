@@ -7,6 +7,7 @@ import Users.Commands.UserCommand;
 import Users.Commands.CommandBehaviours.Login;
 import Users.Commands.CommandBehaviours.Logout;
 import Users.Commands.CommandBehaviours.Register;
+import Users.Commands.CommandBehaviours.UpdateCredentials;
 
 public class CredentialsFactory implements UserCommandFactory{
     private Userbook userbook;
@@ -38,7 +39,7 @@ public class CredentialsFactory implements UserCommandFactory{
                     password = command[2];
                     newPassword = command[3];
                     System.out.println("password:"+password+",newpassword: "+newPassword);
-                    return new Credentials(type,username,password,newPassword,userbook);
+                    return new Credentials(type,username,password,newPassword,userbook,new UpdateCredentials());
             }
             return new Credentials("none",username);
         }

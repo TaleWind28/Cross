@@ -150,7 +150,6 @@ public class GenericTask implements Runnable {
         } 
         //codici riconoscitivi dei comandi -> 104 - 107 sono Credentials, 100 - 103 sono Order 
         return cmd.getUnicode();
-        //return 0;
     }
 }
 
