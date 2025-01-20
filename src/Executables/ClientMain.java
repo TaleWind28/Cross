@@ -12,6 +12,7 @@ public class ClientMain extends ClientProtocol{
     public volatile boolean canSend;
     public Socket sock = null;
     public String helpMessage = "Comandi:\nregister<username,password> -> ti permette di registrarti per poter accedere al servizio di trading\nlogin<username,password> -> permette di accedere ad un account registrato\nupdateCredentials<username,currentPasswd,newPasswd> -> permette di aggiornare le credenziali\nlogout<username> -> permette di uscire dal servizio di trading";
+    
     public ClientMain(String IP, int PORT){
         super(IP,PORT);
         this.canSend = false;

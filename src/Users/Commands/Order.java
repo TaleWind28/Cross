@@ -100,5 +100,12 @@ public class Order implements UserCommand{
         return this.unicode;
     }
 
+    @Override
+    public int validateCommand(UserCommand cmd) {
+        //if(cmd.getInfo()[0])
+        //al momento non so cosa devo controllare
+        return this.getUnicode();
+    }
+
     
 }

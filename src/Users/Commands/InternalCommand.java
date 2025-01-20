@@ -47,4 +47,9 @@ public class InternalCommand implements UserCommand{
         return info;
     }
 
+    @Override
+    public int validateCommand(UserCommand cmd) {
+        return 120;
+    }
+
 }

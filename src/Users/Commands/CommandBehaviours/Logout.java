@@ -13,15 +13,16 @@ public class Logout implements CommandBehaviour{
         String[] credentialsInfo = cmd.getInfo();
         Userbook userbook = (Userbook)cmd.getJsonAccessedData();
         //controllo che esista l'utente
-        if(userbook.accessData(credentialsInfo[1]) == 404)return new Message("Utente non registrato",404);
+        if(!context.onlineUser.equals(credentialsInfo[1]))return new Message("401: Non possiedi le autorizzazioni necessarie",401);
+        if(userbook.accessData(credentialsInfo[1]) == 404)return new Message("404: Utente non registrato",404);
         //controllo che l'utente sia effettivamente loggato
-        if(userbook.getUserMap().get(credentialsInfo[1]).getLogged() == false)return new Message("Utente non attualmente loggato",400);
+        if(userbook.getUserMap().get(credentialsInfo[1]).getLogged() == false)return new Message("400: Utente non attualmente loggato",400);
         //ulteriore controllo su chi sta chiedendo il logout
         //sloggare
         context.onlineUser = "";
         userbook.getUserMap().get(credentialsInfo[1]).setLogged(false);
         userbook.dataFlush();
-        return new Message("utente correttamente sloggato: "+credentialsInfo[1],200);
+        return new Message("200: Utente correttamente sloggato: "+credentialsInfo[1],200);
 
     }
     @Override

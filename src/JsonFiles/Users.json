@@ -1,23 +1,13 @@
 {
-  "topolino": {
-    "username": "topolino",
-    "password": "n",
-    "isLogged": false
-  },
-  "mimmo": {
-    "username": "mimmo",
-    "password": "ii",
-    "isLogged": false
-  },
-  "minnie": {
-    "username": "minnie",
-    "password": "mouse",
-    "isLogged": false
-  },
   "Cydonia": {
     "username": "Cydonia",
     "password": "chiara",
     "isLogged": false
+  },
+  "pin": {
+    "username": "pin",
+    "password": "o",
+    "isLogged": true
   },
   "Alessia": {
     "username": "Alessia",
@@ -29,14 +19,14 @@
     "password": "MaMa2002..",
     "isLogged": false
   },
+  "pnoi": {
+    "username": "pnoi",
+    "password": "i",
+    "isLogged": false
+  },
   "pippo": {
     "username": "pippo",
     "password": "Cane",
-    "isLogged": false
-  },
-  "paperino": {
-    "username": "paperino",
-    "password": "m",
     "isLogged": false
   },
   "pino": {

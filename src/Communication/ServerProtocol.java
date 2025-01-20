@@ -9,7 +9,7 @@ public abstract class ServerProtocol extends CommunicationProtocol{
     public ExecutorService pool;
     private boolean serverTimeout;
     //private int activeClients = 0;
-    private final long CONNECTION_TIMEOUT = 10000;
+    private final long CONNECTION_TIMEOUT = 180;
     private ScheduledExecutorService timeoutScheduler;
     private List<Socket> activeClients;
     private ScheduledFuture<?> timeoutTask;

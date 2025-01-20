@@ -51,6 +51,7 @@ public class Credentials implements UserCommand{
 
     @Override
     public Message execute(GenericTask context) {
+        if(this.validateCommand(this) == 400)return new Message("400: Comando malformato, digitare aiuto per una lista di comandi disponibili");
         return this.myBehaviour.executeOrder(this,context);
     }
     
@@ -102,6 +103,12 @@ public class Credentials implements UserCommand{
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public int validateCommand(UserCommand cmd) {
+        if (this.username.equals("none"))return 400;
+        else return this.getUnicode();
     }
     
 }

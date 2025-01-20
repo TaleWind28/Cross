@@ -20,7 +20,7 @@ public class CredentialsFactory implements UserCommandFactory{
     public UserCommand createUserCommand(String[] command) throws ArrayIndexOutOfBoundsException{
         String type = command[0].toLowerCase();
         System.out.println(type);
-        if(command.length<2)return new Credentials(type, "",userbook ,new Disconnect());
+        if(command.length<2 && type.toLowerCase().equals("exit"))return new Credentials(type, "",userbook ,new Disconnect());
         try {
             String username = command[1];   
             String password = null;

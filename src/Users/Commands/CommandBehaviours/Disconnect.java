@@ -11,16 +11,16 @@ public class Disconnect implements CommandBehaviour{
     public Message executeOrder(UserCommand cmd, GenericTask context) {
        //codice duplicato -> cambiare -> mettere nel costruttore / chiamata di funzione per inizializzare
         Userbook userbook = (Userbook)cmd.getJsonAccessedData();
-        if (context.onlineUser.equals(""))return new Message("Utente correttamente disconnesso dal server",408);
+        if (context.onlineUser.equals(""))return new Message("408: Utente correttamente disconnesso dal server",408);
         //controllo che esista l'utente
-        if(userbook.accessData(context.onlineUser) == 404)return new Message("Utente non registrato",404);
+        if(userbook.accessData(context.onlineUser) == 404)return new Message("404: Utente non registrato",404);
         //controllo che l'utente sia effettivamente loggato
-        if(userbook.getUserMap().get(context.onlineUser).getLogged() == false)return new Message("Utente non attualmente loggato",400);
+        if(userbook.getUserMap().get(context.onlineUser).getLogged() == false)return new Message("400: Utente non attualmente loggato",400);
         //ulteriore controllo su chi sta chiedendo il logout
         //sloggare
         userbook.getUserMap().get(context.onlineUser).setLogged(false);
         userbook.dataFlush();
-        return new Message("utente correttamente disconnesso: "+context.onlineUser,408);
+        return new Message("408: Utente correttamente disconnesso: "+context.onlineUser,408);
     }
 
     @Override
