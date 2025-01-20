@@ -43,14 +43,6 @@ public class ClientMain extends ClientProtocol{
                         System.out.println(serverAnswer.payload);
                         System.exit(0);
                         continue;
-                    // case 401:
-                    //     System.out.println(serverAnswer.code+": Autenticazione Richiesta!");
-                    //     this.canSend = true;
-                    //     continue;
-                    // case 400:
-                    //     System.out.println(serverAnswer.payload);
-                    //     this.canSend = true;
-                    //     continue;
                     default:
                         System.out.println(serverAnswer.payload);
                         this.canSend = true;
@@ -81,6 +73,13 @@ public class ClientMain extends ClientProtocol{
                     System.out.println(helpMessage);
                     continue;
                 }
+                if(serverCommand.payload.contains("register") || serverCommand.payload.contains("login") || serverCommand.payload.contains("logout") || serverCommand.payload.toLowerCase().contains("updatecredentials") ||serverCommand.payload.toLowerCase().contains("exit") ){
+                    serverCommand.code = 0;//codice per la factory del server
+                }else if(serverCommand.payload.contains("order")){
+                    serverCommand.code =1;
+                }else{
+                    serverCommand.code = 2;
+                }
                 this.protocol.sendMessage(serverCommand);
                 this.canSend = false;
             }
@@ -91,6 +90,7 @@ public class ClientMain extends ClientProtocol{
         //apro il socket
         try {
             this.sock = new Socket(this.ip,this.port);
+            System.out.println("socket"+this.sock.toString());
             this.setProtocol(new TCP());
             //imposto receiver, sender e senderThread
             this.protocol.setReceiver(sock);

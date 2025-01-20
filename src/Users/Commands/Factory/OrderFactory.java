@@ -33,6 +33,7 @@ public class OrderFactory implements UserCommandFactory{
 
     @Override
     public void setJsonDataStructure(JsonAccessedData data) {
-        throw new UnsupportedOperationException("Unimplemented method 'setJsonDataStructure'");
+        return;
+        //throw new UnsupportedOperationException("Unimplemented method 'setJsonDataStructure'");
     } 
 }

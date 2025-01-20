@@ -4,6 +4,7 @@ import JsonMemories.JsonAccessedData;
 import JsonMemories.Userbook;
 import Users.Commands.Credentials;
 import Users.Commands.UserCommand;
+import Users.Commands.CommandBehaviours.Disconnect;
 import Users.Commands.CommandBehaviours.Login;
 import Users.Commands.CommandBehaviours.Logout;
 import Users.Commands.CommandBehaviours.Register;
@@ -19,6 +20,7 @@ public class CredentialsFactory implements UserCommandFactory{
     public UserCommand createUserCommand(String[] command) throws ArrayIndexOutOfBoundsException{
         String type = command[0].toLowerCase();
         System.out.println(type);
+        if(command.length<2)return new Credentials(type, "",userbook ,new Disconnect());
         try {
             String username = command[1];   
             String password = null;

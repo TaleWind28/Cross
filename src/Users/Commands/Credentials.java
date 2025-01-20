@@ -99,4 +99,9 @@ public class Credentials implements UserCommand{
     public int getUnicode() {
         return this.unicode;
     }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
 }

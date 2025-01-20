@@ -6,23 +6,22 @@ import JsonMemories.JsonAccessedData;
 
 public class FactoryRegistry {
 
-    private static final Map<String, UserCommandFactory> factories = new HashMap<>();
+    private static final Map<Integer, UserCommandFactory> factories = new HashMap<>();
 
     static {
-        factories.put("credentials", new CredentialsFactory());
-        factories.put("order", new OrderFactory());
+        factories.put(0, new CredentialsFactory());
+        factories.put(1, new OrderFactory());
+        factories.put(2, new InternalServerFactory());
     }
 
-    public static UserCommandFactory getFactory(String commandType) {
-        UserCommandFactory factory = factories.get(commandType.toLowerCase());
-        if (factory == null) {
-            throw new IllegalArgumentException("Tipo di comando non supportato: " + commandType);
-        }
+    public static UserCommandFactory getFactory(int factoryCode) {
+        if (!factories.containsKey(factoryCode))throw new IllegalArgumentException("Tipo di comando non supportato: " + factoryCode);
+        UserCommandFactory factory = factories.get(factoryCode);
         return factory;
     }
 
-    public static void updateFactoryData(String factoryname,JsonAccessedData data){
-        FactoryRegistry.getFactory(factoryname).setJsonDataStructure(data);
+    public static void updateFactoryData(int factoryCode,JsonAccessedData data){
+        FactoryRegistry.getFactory(factoryCode).setJsonDataStructure(data);
         return;
     }   
 }
