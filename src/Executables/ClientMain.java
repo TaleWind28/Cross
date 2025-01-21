@@ -12,7 +12,6 @@ public class ClientMain extends ClientProtocol{
     public volatile boolean canSend;
     public Socket sock = null;
     public String helpMessage = "Comandi:\nregister<username,password> -> ti permette di registrarti per poter accedere al servizio di trading\nlogin<username,password> -> permette di accedere ad un account registrato\nupdateCredentials<username,currentPasswd,newPasswd> -> permette di aggiornare le credenziali\nlogout<username> -> permette di uscire dal servizio di trading";
-    
     public ClientMain(String IP, int PORT){
         super(IP,PORT);
         this.canSend = false;
@@ -68,20 +67,16 @@ public class ClientMain extends ClientProtocol{
         while(true){
             if(this.canSend){
                 Message serverCommand = new Message(this.userInput.nextLine());
-                // String[] cmd = serverCommand.split(" "); 
-                
-                if(serverCommand.payload.equals("aiuto")){
-                    System.out.println(helpMessage);
-                    continue;
-                }
-                if(serverCommand.payload.contains("register") || serverCommand.payload.contains("login") || serverCommand.payload.contains("logout") || serverCommand.payload.toLowerCase().contains("updatecredentials") ||serverCommand.payload.toLowerCase().contains("exit") ){
-                    serverCommand.code = 0;//codice per la factory del server
-                }else if(serverCommand.payload.contains("order")){
-                    serverCommand.code =1;
-                }else{
-                    serverCommand.code = 2;
-                }
+                String[] cmd = serverCommand.payload.split(" "); 
+                //controllo il tipo di comando richiesto
+                if(cmd[0].toLowerCase().equals("register") || cmd[0].toLowerCase().equals("login") || cmd[0].toLowerCase().equals("logout") || cmd[0].toLowerCase().equals("updatecredentials") || cmd[0].toLowerCase().equals("exit")){
+                    //0 -> credenziali
+                    serverCommand.code = 0;
+                }else if(cmd[0].toLowerCase().contains("order")) serverCommand.code = 1;//1 -> order
+                else serverCommand.code = 2; //2 -> internalCommand
+                //invio la richiesta al server
                 this.protocol.sendMessage(serverCommand);
+                //impedisco al client di mandare altri messaggi finchè non arriva la risposta del server
                 this.canSend = false;
             }
         }
@@ -90,10 +85,13 @@ public class ClientMain extends ClientProtocol{
     public void multiDial(){
         //apro il socket
         try {
+            //apro il socket lato client
             this.sock = new Socket(this.ip,this.port);
+            //stampa di debug
             System.out.println("socket"+this.sock.toString());
+            //imposto il protocollo di comunicazione
             this.setProtocol(new TCP());
-            //imposto receiver, sender e senderThread
+            //imposto receiver, sender e receiverThread
             this.protocol.setReceiver(sock);
             this.protocol.setSender(sock);
             this.setReceiverThread();

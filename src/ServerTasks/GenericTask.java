@@ -60,7 +60,7 @@ public class GenericTask implements Runnable {
         protocol.sendMessage(new Message(welcomeMessage));
         try{
             while(!(Thread.currentThread().isInterrupted())){
-                this.onlineUser = "pippo";
+                //this.onlineUser = "pippo";
                 //avvio timeout inattività
                 this.timeoutTask = this.timeoutScheduler.schedule(inactivityDisconnection, CONNECTION_TIMEOUT, TimeUnit.SECONDS);
                 //recupero il messaggio del client
