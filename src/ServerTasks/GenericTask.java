@@ -11,7 +11,6 @@ import Communication.Protocol;
 import Users.Commands.*;
 import Users.Commands.Factory.FactoryRegistry;
 import Executables.ServerMain;
-import JsonMemories.Userbook;
 
 public class GenericTask implements Runnable {
     private Socket client;
