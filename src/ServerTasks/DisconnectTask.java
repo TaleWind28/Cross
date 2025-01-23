@@ -5,8 +5,6 @@ import java.net.Socket;
 import Communication.Message;
 import Communication.Protocol;
 import Communication.ServerProtocol;
-import Users.Commands.Credentials;
-import Users.Commands.CommandBehaviours.Logout;
 import Users.Commands.Factory.FactoryRegistry;
 
 public class DisconnectTask implements Runnable{
