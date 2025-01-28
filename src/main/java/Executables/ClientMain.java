@@ -28,7 +28,7 @@ public class ClientMain extends ClientProtocol{
         }
     
         public void receiveBehaviour(){
-            // Aggiungi un ShutdownHook per gestire Ctrl+C
+            
             try{
                 while(true){
                     Message serverAnswer = this.protocol.receiveMessage();
@@ -50,6 +50,7 @@ public class ClientMain extends ClientProtocol{
                             this.sock.close();
                             if (!this.sigintTermination)System.exit(0);
                             this.latch.countDown();
+                            System.out.println("mino");
                             return;
                         default:
                             System.out.println(serverAnswer.payload);
@@ -92,6 +93,20 @@ public class ClientMain extends ClientProtocol{
         //dialogo col server sfruttando il multithreading
         public void multiDial(){
             //apro il socket
+            // Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            //     System.out.println("Il programma sta per essere interrotto. Esecuzione delle operazioni di pulizia...");
+            //     // Puoi inserire qui qualsiasi operazione di pulizia, come la chiusura di file, risorse, ecc.
+            //     try {
+            //         Thread.sleep(2000);  // Simula un'attività di pulizia (es. salvataggio stato, chiusura connessioni)
+            //         System.out.println("Pulizia completata.");
+            //         try {
+            //             this.sock.close();
+            //         } catch (IOException e) {;}
+            //         System.out.println("addios");
+            //     } catch (InterruptedException e) {
+            //         System.out.println("Errore durante la pulizia.");
+            //     }
+            // }));
             try {
                 //apro il socket lato client
                 this.sock = new Socket(this.ip,this.port);
@@ -112,13 +127,10 @@ public class ClientMain extends ClientProtocol{
             catch (SocketException e) {
                 //System.out.println(e.getClass());
                 System.out.println("Il server al momento non è disponibile :( , ci scusiamo per il disagio ");
-                System.exit(0);
             }
             //input errato
             catch(IOException e){
                 System.out.println("C'è stato un'errore sulla lettura dal socket");
-                System.exit(0);;
-    
             }
             catch(NoSuchElementException e){
                 System.out.println("Ctr+c Rilevato -> chiusura in corso...");
@@ -126,17 +138,26 @@ public class ClientMain extends ClientProtocol{
                 this.protocol.sendMessage(new Message("exit",0));
                 this.canSend = false;
                 this.sigintTermination = true;
-            try {
-                System.out.print("aspetto");
-                this.latch.await();
-                System.out.print("svegliato");
-            } catch (Exception e1) {
-                System.out.println("java fa cagare per ste cose annidate");
-            }
         }
         //eccezione generica
         catch(Exception e ){
             System.out.println("eccezione: "+e.getClass()+" : "+e.getStackTrace()+" : "+e.getCause());
         }
+        finally{
+            //se il socket non è stato aperto termino direttamente perchè non ho niente da chiudere
+            if (this.sock == null)System.exit(0);
+            try {
+                //attendo la terminazione del receiver
+                this.receiverThread.join();   
+                //chiudo il socket
+                this.sock.close();
+            }catch (InterruptedException e) {
+                e.printStackTrace();
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.exit(0);
+        }
+            
     }
 }

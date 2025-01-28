@@ -42,6 +42,6 @@
   "pino": {
     "username": "pino",
     "password": "i",
-    "isLogged": true
+    "isLogged": false
   }
 }
