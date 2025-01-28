@@ -27,18 +27,18 @@ public class ClientMain extends ClientProtocol{
     
     public void receiveBehaviour(){
         // Aggiungi uno shutdown hook alla JVM
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            if (this.sigintTermination== false)return;
-            // Operazioni di pulizia o altre azioni da eseguire prima che la JVM termini
-            //System.out.println("Shutdown hook eseguito: Pulizia in corso...");
-            // Esempio: liberare risorse, salvare lo stato, chiudere connessioni, ecc.
-            try {
-                System.out.println(this.protocol.receiveMessage().payload);
-            }
-            catch(Exception e){
-                ;
-            }
-        }));
+        Runtime.getRuntime().addShutdownHook(
+            new Thread(
+                () -> {
+                    //ho bisogno di shutdownhook solo per controllare il logout dell'utente dal server nel caso di sigint
+                    if (this.sigintTermination == false)return;
+                    try {
+                        System.out.println(this.protocol.receiveMessage().payload);
+                    } catch (Exception e) {;}
+                }
+            )
+        );
+        
         try{
             while(true){
                 //System.out.println("Attendo messaggio...");
@@ -70,7 +70,7 @@ public class ClientMain extends ClientProtocol{
             }
         }
         catch(IOException e){
-            System.out.println(e.getMessage());
+            System.out.println("bella: "+e.getMessage());
             System.exit(0);
         }
         catch(Exception e){
@@ -125,29 +125,29 @@ public class ClientMain extends ClientProtocol{
                 System.out.println("C'è stato un'errore sulla lettura dal socket");
             }
             catch(NoSuchElementException e){
-                System.out.println("Ctr+c Rilevato -> chiusura in corso...");
-                this.canSend = true;
+                //comunico al client la chiusura imminente
+                System.out.println("Ctr+c Rilevato -> disconnessione in corso...");
+                //invio al server un messaggio di exit
                 this.protocol.sendMessage(new Message("exit",0));
-                this.canSend = false;
+                //imposto la variabile sigintTermination a true per poter sfruttare il shutdownHook sul receiver
                 this.sigintTermination = true;
-                //attendo la terminazione del receiver
-                try {
-                    if(this.receiverThread.isAlive()){this.receiverThread.join(0);}
-                    //stampa di debug   
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
             }
             //eccezione generica
             catch(Exception e ){
+                
                 System.out.println("eccezione: "+e.getClass()+" : "+e.getStackTrace()+" : "+e.getCause());
             }
             finally{
                 //se il socket non è stato aperto termino direttamente perchè non ho niente da chiudere
                 if (this.sock == null)System.exit(0);
                 try {
+                    //attendo la terminazione del receiver se è in esecuzione
+                    if(this.receiverThread.isAlive())this.receiverThread.join(0);
                     //chiudo il socket
                     this.sock.close();
+                    //stampa di debug   
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
                 }catch (IOException e) {
                     e.printStackTrace();
                 }

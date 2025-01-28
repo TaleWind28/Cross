@@ -33,7 +33,7 @@ public abstract class ServerProtocol extends CommunicationProtocol{
             client.close();
         }            
         catch (Exception e) {
-            System.out.println(e.getClass()+": "+e.getStackTrace());   
+            //System.out.println(e.getClass()+": "+e.getStackTrace());   
         }
         if(activeClients.isEmpty() && serverTimeout){
             System.out.println("Timeout Disconnessione iniziato");

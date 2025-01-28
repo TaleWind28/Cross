@@ -42,7 +42,7 @@ public class TCP implements Protocol{
             }
             return null;
         }catch(IOException e){
-            System.out.println("Client: "+e.getMessage());
+            //System.out.println("Client: "+e.getMessage());
             return null;
         }
     }
