@@ -11,6 +11,7 @@ public class Login implements CommandBehaviour {
     @Override
     public Message executeOrder(UserCommand cmd,GenericTask context) {
         String[] credentialsInfo = cmd.getInfo();
+        //System.out.println("aaa");
         Userbook userbook = (Userbook)cmd.getJsonAccessedData();
         // if(userbook.getUserMap().containsKey(this.onlineUser))
         User user = new User(credentialsInfo[1], credentialsInfo[2]);

@@ -18,6 +18,7 @@ public class Register implements CommandBehaviour{
         
         System.out.println(userbook.toString());
         
+        
         if(userbook.accessData(credentialsInfo[1]) == 200)return new Message("400: Utente già presente nel database",400);//sostituire con eccezzione
         //System.out.println("controllo dati utente esistente superato");
         //memorizzare username e password

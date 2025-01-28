@@ -1,4 +1,6 @@
 package Users.Commands;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import Communication.Message;
 import JsonMemories.JsonAccessedData;
 import JsonMemories.Userbook;
@@ -11,6 +13,7 @@ public class Credentials implements UserCommand{
     private String username;
     private String password = new String();
     private String newPassword = new String();
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     private Userbook userbook;
     private CommandBehaviour myBehaviour;
     private int unicode;
@@ -51,7 +54,10 @@ public class Credentials implements UserCommand{
 
     @Override
     public Message execute(GenericTask context) {
+        
         if(this.validateCommand(this) == 400)return new Message("400: Comando malformato, digitare aiuto per una lista di comandi disponibili");
+        //this.password = this.encoder.encode(this.password);
+        //capire come fare il match delle password dopo averle criptate
         return this.myBehaviour.executeOrder(this,context);
     }
     
@@ -110,5 +116,4 @@ public class Credentials implements UserCommand{
         if (this.username.equals("none"))return 400;
         else return this.getUnicode();
     }
-    
 }

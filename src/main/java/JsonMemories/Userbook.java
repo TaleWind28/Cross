@@ -35,7 +35,7 @@ public class Userbook implements JsonAccessedData{
         //if(!this.userMap.containsKey(user.getUsername()))return 404;
         if(this.accessData(user.getUsername())==404)return 404;
         User usr = this.userMap.get(user.getUsername());
-        System.out.println("password mappa:"+usr.getPassword()+" password utente:"+user.getPassword());
+        //System.out.println("password mappa:"+usr.getPassword()+" password utente:"+user.getPassword());
         if(!user.getPassword().equals(usr.getPassword()))return 400;
         return 200;
     }

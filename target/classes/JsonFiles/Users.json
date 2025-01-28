@@ -1,4 +1,9 @@
 {
+  "mimmo": {
+    "username": "mimmo",
+    "password": "a",
+    "isLogged": false
+  },
   "Cydonia": {
     "username": "Cydonia",
     "password": "chiara",
@@ -7,7 +12,12 @@
   "pin": {
     "username": "pin",
     "password": "o",
-    "isLogged": true
+    "isLogged": false
+  },
+  "pinoi": {
+    "username": "pinoi",
+    "password": "i",
+    "isLogged": false
   },
   "Alessia": {
     "username": "Alessia",
@@ -26,12 +36,12 @@
   },
   "pippo": {
     "username": "pippo",
-    "password": "Cane",
+    "password": "cane",
     "isLogged": false
   },
   "pino": {
     "username": "pino",
     "password": "i",
-    "isLogged": false
+    "isLogged": true
   }
 }

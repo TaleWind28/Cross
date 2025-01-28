@@ -15,8 +15,8 @@ public class ServerMain extends ServerProtocol{
     private Orderbook orderbook;
     public ServerMain(int port, int numThreads){
         super(port,numThreads);
-        this.registeredUsers = new Userbook("src\\JsonFiles\\Users.json");
-        this.orderbook = new Orderbook("src\\JsonFiles\\Users.json");
+        this.registeredUsers = new Userbook("src\\main\\java\\JsonFiles\\Users.json");
+        this.orderbook = new Orderbook("src\\main\\java\\JsonFiles\\OrderBook.json");
     }
 
     public static void main(String[] args) throws Exception {

@@ -23,6 +23,7 @@ public class GenericTask implements Runnable {
     public volatile String onlineUser = new String();
     public String helpMessage = "Comandi:\nregister<username,password> -> ti permette di registrarti per poter accedere al servizio di trading\nlogin<username,password> -> permette di accedere ad un account registrato\nupdateCredentials<username,currentPasswd,newPasswd> -> permette di aggiornare le credenziali\nlogout<username> -> permette di uscire dal servizio di trading";
     public String welcomeMessage = "Per fare trading inserire un ordine di qualunque tipo";
+    
     public GenericTask(Socket client_socket,Protocol protocol) throws Exception{
         super();
         this.client = client_socket;
@@ -82,7 +83,7 @@ public class GenericTask implements Runnable {
             return;
         }
         catch(Exception e){
-            System.out.println("moio");
+            System.out.println(e.getClass()+" : "+e.getCause()+" Stack:"+e.getStackTrace()+":"+e.getLocalizedMessage()+" : "+e.getSuppressed());
             return;
         }
     }
@@ -91,6 +92,7 @@ public class GenericTask implements Runnable {
         //stampa di debug
         System.out.println("richiesta factory: "+clientRequest.payload);
         //creo il comando richiedendo la factory
+        System.out.println(clientRequest.payload+"payload");
         UserCommand cmd = FactoryRegistry.getFactory(clientRequest.code).createUserCommand(clientRequest.payload.split(" "));
         //stampa di debug
         System.out.println("Comando fabbricato: "+cmd.toString());
