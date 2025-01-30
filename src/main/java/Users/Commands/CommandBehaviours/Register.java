@@ -1,13 +1,9 @@
 package Users.Commands.CommandBehaviours;
 
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import Communication.Message;
 import JsonMemories.Userbook;
 import ServerTasks.GenericTask;
 import Users.User;
-import Users.Commands.Credentials;
 import Users.Commands.UserCommand;
 
 public class Register implements CommandBehaviour{

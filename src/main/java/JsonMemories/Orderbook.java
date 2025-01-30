@@ -3,7 +3,6 @@ package JsonMemories;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.List;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -17,44 +16,32 @@ import Users.Commands.Order;
 public class Orderbook implements JsonAccessedData{
     private String jsonFilePath;
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private final TreeMap<Integer, Order> askOrders; // Prezzi crescenti
-    private final TreeMap<Integer, Order> bidOrders; // Prezzi decrescenti
-    private final ConcurrentLinkedQueue<Order> stopOrders;
+    private TreeMap<Integer, Order> askOrders; // Prezzi crescenti
+    private  TreeMap<Integer, Order> bidOrders; // Prezzi decrescenti
+    private  ConcurrentLinkedQueue<Order> stopOrders;//devo ancora vedere cosa sono
+        
     public Orderbook(String jsonFilePath){
         this.jsonFilePath = jsonFilePath;
         this.askOrders = new TreeMap<>();
         this.bidOrders = new TreeMap<>();
         this.stopOrders = new ConcurrentLinkedQueue<>(); 
     }
-
+    
     @Override
     public int accessData(String keyword) {
         System.out.println(this.jsonFilePath);
         throw new UnsupportedOperationException("Unimplemented method 'accessData'");
     }
-
+    
     @Override
     public void loadData() {
         try (JsonReader reader = new JsonReader(new FileReader(this.jsonFilePath)))  {
-            //inizio la lettura
-            reader.beginObject();
-            reader.beginArray();
-            System.out.println("oggetto iniziato");
-            //ciclo su tutti gli elementi del Json
-            while(reader.hasNext()){
-                //consumo la key della hasmap
-                reader.nextName();
-                //creo l'utente da inserire
-                User us = this.gson.fromJson(reader,User.class);
-                ////stampa di debug
-                //System.out.println(us.getPassword());
-                //carico l'utente nella mappa
-                //this.userMap.put(us.getUsername(), us);
-            }
+            OrderClass orderData = gson.fromJson(reader,OrderClass.class);
+            this.askOrders = (TreeMap<Integer,Order>)orderData.askMap;
+            this.bidOrders = (TreeMap<Integer,Order>)orderData.bidMap;
+            System.out.println("copio");
         }
-        catch(Exception e){
-
-        }
+        catch(Exception e){;}
         return;
     }
 

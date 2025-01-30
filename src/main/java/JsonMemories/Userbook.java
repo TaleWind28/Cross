@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,7 +34,6 @@ public class Userbook implements JsonAccessedData{
     }
 
     public int checkCredentials(User user){
-        BCryptPasswordEncoder enc = new BCryptPasswordEncoder();
         //if(!this.userMap.containsKey(user.getUsername()))return 404;
         if(this.accessData(user.getUsername())==404)return 404;
         User usr = this.userMap.get(user.getUsername());

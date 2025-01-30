@@ -29,7 +29,6 @@ public class InternalCommand implements UserCommand{
 
     @Override
     public JsonAccessedData getJsonAccessedData() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getJsonAccessedData'");
     }
 
