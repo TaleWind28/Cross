@@ -13,7 +13,7 @@ public class OrderFactory implements UserCommandFactory{
         String type = command[1].toLowerCase();
         System.out.println(orderType+":"+type);
         try {
-            orderNumber++;//fanculo lo 0
+            orderNumber++;
             //qtà di bitcoin
             int size = Integer.parseInt(command[2]);
             System.out.println("dopo parsing");
@@ -38,5 +38,8 @@ public class OrderFactory implements UserCommandFactory{
     @Override
     public void setJsonDataStructure(JsonAccessedData data) {
         return;
-    } 
+    }
+    public void setOrderNumber(int orderNumber) {
+        this.orderNumber = orderNumber;
+    }
 }

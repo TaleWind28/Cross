@@ -10,14 +10,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 
-import Users.User;
 import Users.Commands.Order;
 
 public class Orderbook implements JsonAccessedData{
     private String jsonFilePath;
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private TreeMap<Integer, Order> askOrders; // Prezzi crescenti
-    private  TreeMap<Integer, Order> bidOrders; // Prezzi decrescenti
+    private TreeMap<String, Order> askOrders; // Prezzi crescenti
+    private  TreeMap<String, Order> bidOrders; // Prezzi decrescenti
     private  ConcurrentLinkedQueue<Order> stopOrders;//devo ancora vedere cosa sono
         
     public Orderbook(String jsonFilePath){
@@ -38,8 +37,8 @@ public class Orderbook implements JsonAccessedData{
         System.out.println("copio");
         try (JsonReader reader = new JsonReader(new FileReader(this.jsonFilePath)))  {
             OrderClass orderData = gson.fromJson(reader,OrderClass.class);
-            this.askOrders = (TreeMap<Integer,Order>)orderData.askMap;
-            this.bidOrders = (TreeMap<Integer,Order>)orderData.bidMap;
+            this.askOrders = (TreeMap<String,Order>)orderData.askMap;
+            this.bidOrders = (TreeMap<String,Order>)orderData.bidMap;
             System.out.println("copio");
         }
         catch(Exception e){System.out.println("copio male");;}
@@ -47,8 +46,8 @@ public class Orderbook implements JsonAccessedData{
     }
 
     public void addData(Order ord,String mapType) {
-        if (mapType.equals("ask"))this.askOrders.put(ord.getorderID(),ord);
-        else this.bidOrders.put(ord.getorderID(),ord);
+        if (mapType.equals("ask"))this.askOrders.put(""+ord.getorderID(),ord);
+        else this.bidOrders.put(""+ord.getorderID(),ord);
         this.dataFlush();
         return;
     }
@@ -62,6 +61,10 @@ public class Orderbook implements JsonAccessedData{
             System.out.println("Aiuto");
         }
         return;
+    }
+
+    public int mapLen() {
+        return this.askOrders.size() +this.bidOrders.size();
     }
 
 }

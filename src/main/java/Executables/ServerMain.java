@@ -11,6 +11,8 @@ import JsonMemories.Userbook;
 import ServerTasks.*;
 import Users.Commands.Order;
 import Users.Commands.Factory.FactoryRegistry;
+import Users.Commands.Factory.OrderFactory;
+import Users.Commands.Factory.UserCommandFactory;
 
 public class ServerMain extends ServerProtocol{
     private Userbook registeredUsers;
@@ -71,13 +73,23 @@ public class ServerMain extends ServerProtocol{
     public Userbook getRegisteredUsers() {
         return registeredUsers;
     }
+
+    public Orderbook getOrderbook() {
+        return orderbook;
+    }
+
     public void initialConfig(){
         this.registeredUsers.loadData();
-        this.orderbook.addData(new Order("marketorder", "ask",5,0),"ask");
-        this.orderbook.addData(new Order("marketorder", "bid",5,1),"bid");
+        // this.orderbook.addData(new Order("marketorder", "ask",5,0),"ask");
+        // this.orderbook.addData(new Order("marketorder", "ask",5,2),"ask");
+        // this.orderbook.addData(new Order("marketorder", "bid",5,1),"bid");
         this.orderbook.loadData();
+        int progressiveOrderNumber = this.orderbook.mapLen()-1;
+        System.out.println("Numero Ordine: "+progressiveOrderNumber);
         FactoryRegistry.updateFactoryData(0, registeredUsers);
         FactoryRegistry.updateFactoryData(1, orderbook);
+        //UserCommandFactory fact = FactoryRegistry.getFactory(1);
+        //if(fact instanceof OrderFactory)((OrderFactory)fact).setOrderNumber(progressiveOrderNumber);
         return;
     }
 }

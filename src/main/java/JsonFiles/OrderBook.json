@@ -6,6 +6,13 @@
       "exchangeType": "ask",
       "size": 5,
       "price": 0
+    },
+    "2": {
+      "orderID": 2,
+      "type": "marketorder",
+      "exchangeType": "ask",
+      "size": 5,
+      "price": 0
     }
   },
   "bidMap": {

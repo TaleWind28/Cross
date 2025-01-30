@@ -21,8 +21,8 @@ public class ClientMain extends ClientProtocol{
     }
         
     public static void main(String args[]) throws Exception{
-            ClientMain client = new ClientMain("127.0.0.1", 20000);
-            client.multiDial();
+        ClientMain client = new ClientMain("127.0.0.1", 20000);
+        client.multiDial();
     }
     
     public void receiveBehaviour(){
