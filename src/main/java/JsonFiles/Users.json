@@ -21,7 +21,7 @@
   },
   "pnoi": {
     "username": "pnoi",
-    "password": "$2a$10$262cIOHlpQ5MUI9VOhL5peoZGGV4UCMWPiVNVC1qaGLwxGiOLzlyS",
+    "password": "$2a$10$Kgscx1pK4oZ6b1RAwhoWMOaiNdN2oxhwitK.P3dqXww8h0S9eqqla",
     "isLogged": false
   },
   "TaleWind": {
@@ -31,12 +31,12 @@
   },
   "pippo": {
     "username": "pippo",
-    "password": "$2a$10$JAjTOmLyB5dmE1FyN7bwNOh0JYfDZNapxAVu81htF4tCQh3LuAPyS",
+    "password": "$2a$10$IKo05duGZ5mRTBo5jupHGOqs93TtWr35.2xgC1UgTgQ1Zvdt6JT/2",
     "isLogged": false
   },
   "pino": {
     "username": "pino",
-    "password": "$2a$10$6x64k8rk6tH73CG7tLUGO.w.ibANKYXovZ57yKFxrCCnvhxv0UkUG",
+    "password": "$2a$10$LpThe.T.sI0v5/jPp13vreaDzW2CuD8j5PSqRwIkfaGUfbmfDHxfe",
     "isLogged": false
   }
 }

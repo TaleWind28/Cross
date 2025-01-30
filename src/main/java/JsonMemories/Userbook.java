@@ -81,9 +81,6 @@ public class Userbook implements JsonAccessedData{
 
     //aggiungo dati alla struttura dati ed al file Json
     public void addData(User user){
-        //System.out.println("provo ad inserire");
-        //creo un BufferedWriter per scrivere sul json
-        //System.out.println("provo ad inserire");
         //inserisco nella mappa
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         this.userMap.put(user.getUsername(), user);
@@ -102,6 +99,16 @@ public class Userbook implements JsonAccessedData{
         }
     }
 
+    public void updateData(User user, String newPasswd){
+        //controllo se esiste l'username
+        this.accessData(user.getUsername());
+        //aggiorno la password
+        user.setPassword(BCrypt.hashpw(newPasswd,BCrypt.gensalt()));
+        //inserisco nella mappa
+        this.userMap.put(user.getUsername(),user);
+        //aggiorno il json
+        this.dataFlush();
+    }
 
     public static <K, V> void printConcurrentHashMap(ConcurrentHashMap<K, V> map) {
         if (map == null || map.isEmpty()) {

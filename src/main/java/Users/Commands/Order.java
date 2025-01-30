@@ -13,14 +13,15 @@ import Users.Commands.CommandBehaviours.StopOrder;
 
 
 public class Order implements UserCommand{
-    protected String reqType;
-    protected int size;
-    protected int treshold;
-    protected String type;
-    protected CommandBehaviour myBehaviour;
-    protected ConcurrentHashMap<String, User> map;
-    protected Orderbook orderbook;
-    protected int unicode;
+    protected String reqType;//modalità ordine: ask/bid
+    protected int size;//qtà di bitcoin
+    protected int treshold;//soglia di prezzo
+    protected String type;//tipo di ordine
+    protected CommandBehaviour myBehaviour;//comportamento ordinw
+    protected ConcurrentHashMap<String, User> map;//interessante
+    protected Orderbook orderbook;//orderbook dove infilare gli ordini
+    protected int unicode;//unicode degli ordini -> NON è IL CODICE UNIVOCO DELL'ORDINE SINGOLO
+    protected int orderCode;//CODICE UNIVOCO DI RICONOSCIMENTO DELL'ORDINE
     
     public Order(String[] input){
         this.type = input[0];
@@ -34,24 +35,25 @@ public class Order implements UserCommand{
     }
 
     //costruttore MarketOrder
-    public Order(String orderType, String type, int size){
+    public Order(String orderType, String type, int size, int orderNumber){
         this.type = orderType;
         setBehaviour(new MarketOrder());
         this.reqType = type;
         this.size = size;
         this.treshold = 0;
+        this.orderCode = orderNumber;
         
     }
 
     //costruttore LimitOrder e StopOrder
-    public Order(String orderType, String type, int size, int treshold){
+    public Order(String orderType, String type, int size, int treshold,int orderNumber){
         this.type = orderType;
         if (orderType.toLowerCase().contains("stoporder"))setBehaviour(new StopOrder());
         if (orderType.toLowerCase().contains("limitorder"))setBehaviour(new LimitOrder());
         this.reqType = type;
         this.size = size;
         this.treshold = treshold;
-        //setBehaviour(new MarketOrder());
+        this.orderCode = orderNumber;
     }
 
     public void setBehaviour(CommandBehaviour behaviour){

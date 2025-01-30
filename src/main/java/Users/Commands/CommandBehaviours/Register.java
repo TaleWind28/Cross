@@ -19,12 +19,13 @@ public class Register implements CommandBehaviour{
         String[] credentialsInfo = cmd.getInfo();
         Userbook userbook = (Userbook)cmd.getJsonAccessedData();
         //controllare che username non esista già
-        if(userbook.accessData(credentialsInfo[1]) == 200)return new Message("400: Utente già presente nel database",400);//sostituire con eccezzione
+        if(userbook.accessData(credentialsInfo[1]) == 200)return new Message("[400]: Utente già presente nel database",400);//sostituire con eccezzione
         //System.out.println("controllo dati utente esistente superato");
+        
         //memorizzare username e password
         userbook.addData(new User(credentialsInfo[1], credentialsInfo[2]));
         //System.out.println("entro");
-        return new Message("200: Utente correttamente registrato col nome: "+credentialsInfo[1],201);
+        return new Message("[200]: Utente correttamente registrato col nome "+credentialsInfo[1],201);
     }
     @Override
     public int getUnicode() {
