@@ -13,7 +13,7 @@ public class Credentials implements UserCommand{
     private String username;
     private String password = new String();
     private String newPassword = new String();
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     private Userbook userbook;
     private CommandBehaviour myBehaviour;
     private int unicode;
@@ -115,5 +115,9 @@ public class Credentials implements UserCommand{
     public int validateCommand(UserCommand cmd) {
         if (this.username.equals("none"))return 400;
         else return this.getUnicode();
+    }
+    
+    public BCryptPasswordEncoder getEncoder() {
+        return encoder;
     }
 }

@@ -1,47 +1,42 @@
 {
   "mimmo": {
     "username": "mimmo",
-    "password": "a",
-    "isLogged": false
-  },
-  "Cydonia": {
-    "username": "Cydonia",
-    "password": "chiara",
-    "isLogged": false
-  },
-  "pin": {
-    "username": "pin",
-    "password": "o",
+    "password": "$2a$10$ByJ.8itNQYgPok7.2qIz8.A2wUnX6UpDvPcNznnG7WvDQKj1pOFeS",
     "isLogged": false
   },
   "pinoi": {
     "username": "pinoi",
-    "password": "i",
+    "password": "$2a$10$bnrVWqrJAq1cfe4jol/XGOi7HFzIanEXJvtsJbkHq33HgHgd.AiNu",
     "isLogged": false
   },
-  "Alessia": {
-    "username": "Alessia",
-    "password": "Cesare98",
+  "pin": {
+    "username": "pin",
+    "password": "$2a$10$tjxw6DsZhTmqKKopF26dTe59nLTySRzVcKdAZunKdT3yk2bxrpTsW",
     "isLogged": false
   },
-  "TaleWind": {
-    "username": "TaleWind",
-    "password": "MaMa2002..",
+  "Cydonia": {
+    "username": "Cydonia",
+    "password": "$2a$10$41tqYhp.0dN8g0tbfx4I/u/CU3OjPg764lMBVyWPZoYZnTjxIEG3e",
     "isLogged": false
   },
   "pnoi": {
     "username": "pnoi",
-    "password": "i",
+    "password": "$2a$10$262cIOHlpQ5MUI9VOhL5peoZGGV4UCMWPiVNVC1qaGLwxGiOLzlyS",
+    "isLogged": false
+  },
+  "TaleWind": {
+    "username": "TaleWind",
+    "password": "$2a$10$reYx0tmh9XUmizv0SUJHKOahimZaclLKZ8mjCiCB2bxOOZaJw2.62",
     "isLogged": false
   },
   "pippo": {
     "username": "pippo",
-    "password": "cane",
+    "password": "$2a$10$JAjTOmLyB5dmE1FyN7bwNOh0JYfDZNapxAVu81htF4tCQh3LuAPyS",
     "isLogged": false
   },
   "pino": {
     "username": "pino",
-    "password": "i",
+    "password": "$2a$10$6x64k8rk6tH73CG7tLUGO.w.ibANKYXovZ57yKFxrCCnvhxv0UkUG",
     "isLogged": false
   }
 }

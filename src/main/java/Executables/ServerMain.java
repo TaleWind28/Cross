@@ -2,6 +2,7 @@ package Executables;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 
 import Communication.ServerProtocol;
 import Communication.TCP;
@@ -21,13 +22,36 @@ public class ServerMain extends ServerProtocol{
 
     public static void main(String[] args) throws Exception {
         ServerMain server = new ServerMain(20000,16);
+        // Aggiungi uno shutdown hook alla JVM
+        Runtime.getRuntime().addShutdownHook(
+            new Thread(
+                () -> {
+                    System.out.println("Ctrl+C rilevato -> chiusura server in corso...");
+                    //Arresta il thread pool
+                    server.pool.shutdown();
+                    try {
+                        //Attende la terminazione dei thread attivi
+                        if (!server.pool.awaitTermination(10, TimeUnit.MILLISECONDS)) {
+                            System.out.println("[Server] Interruzione forzata dei thread attivi...");
+                            server.pool.shutdownNow();
+                        }
+                    } catch (InterruptedException e) {
+                        //Forza l'arresto in caso di interruzione
+                        server.pool.shutdownNow();
+                    }
+                    System.out.println("[Server] Threadpool terminato");
+                    server.registeredUsers.getUserMap().forEach((username, user)-> user.setLogged(false));
+                    server.registeredUsers.dataFlush();
+                    System.out.println("[Server] Utenti correttamente sloggati");
+                }
+            )
+        );
         server.initialConfig();
         server.dial();
         return;
     }
     
     public void dial(){
-            
             try (ServerSocket server = new ServerSocket()) {
                 String bindAddress = "0.0.0.0"; // Ascolta su tutte le interfacce di rete
                 server.bind(new InetSocketAddress(bindAddress,this.PORT));
@@ -43,7 +67,9 @@ public class ServerMain extends ServerProtocol{
                 System.exit(0);
             }
     }
-    
+    public Userbook getRegisteredUsers() {
+        return registeredUsers;
+    }
     public void initialConfig(){
         this.registeredUsers.loadData();
         this.orderbook.loadData();

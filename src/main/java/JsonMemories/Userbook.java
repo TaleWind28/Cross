@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
@@ -32,11 +35,14 @@ public class Userbook implements JsonAccessedData{
     }
 
     public int checkCredentials(User user){
+        BCryptPasswordEncoder enc = new BCryptPasswordEncoder();
         //if(!this.userMap.containsKey(user.getUsername()))return 404;
         if(this.accessData(user.getUsername())==404)return 404;
         User usr = this.userMap.get(user.getUsername());
+        //controllo se la password criptata corrisponde
+        if(!BCrypt.checkpw(user.getPassword(), usr.getPassword()))return 400;
         //System.out.println("password mappa:"+usr.getPassword()+" password utente:"+user.getPassword());
-        if(!user.getPassword().equals(usr.getPassword()))return 400;
+        // if(!user.getPassword().equals(usr.getPassword()))return 400;
         return 200;
     }
 
@@ -79,6 +85,7 @@ public class Userbook implements JsonAccessedData{
         //creo un BufferedWriter per scrivere sul json
         //System.out.println("provo ad inserire");
         //inserisco nella mappa
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         this.userMap.put(user.getUsername(), user);
         //aggiorno il Json per farlgi rispecchiare la mappa
         this.dataFlush();
