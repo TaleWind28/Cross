@@ -13,23 +13,25 @@ import Users.Commands.CommandBehaviours.StopOrder;
 
 
 public class Order implements UserCommand{
-    protected String reqType;//modalità ordine: ask/bid
-    protected int size;//qtà di bitcoin
-    protected int treshold;//soglia di prezzo
+    protected int orderID;//CODICE UNIVOCO DI RICONOSCIMENTO DELL'ORDINE
     protected String type;//tipo di ordine
-    protected CommandBehaviour myBehaviour;//comportamento ordinw
-    protected ConcurrentHashMap<String, User> map;//interessante
-    protected Orderbook orderbook;//orderbook dove infilare gli ordini
-    protected int unicode;//unicode degli ordini -> NON è IL CODICE UNIVOCO DELL'ORDINE SINGOLO
-    protected int orderCode;//CODICE UNIVOCO DI RICONOSCIMENTO DELL'ORDINE
+    protected String exchangeType;//modalità ordine: ask/bid
+    protected int size;//qtà di bitcoin
+    protected int price;//soglia di prezzo
+    ///campi non visibili nel Json
+    transient protected CommandBehaviour myBehaviour;//comportamento ordinw
+    transient protected ConcurrentHashMap<String, User> map;//interessante
+    transient protected Orderbook orderbook;//orderbook dove infilare gli ordini
+    transient protected int unicode;//unicode degli ordini -> NON è IL CODICE UNIVOCO DELL'ORDINE SINGOLO
+    
     
     public Order(String[] input){
         this.type = input[0];
-        this.reqType = input[1];
+        this.exchangeType = input[1];
         this.size = Integer.parseInt(input[2]);
-        this.treshold = 0;
+        this.price = 0;
         if(input.length==4){
-            this.treshold = Integer.parseInt(input[3]);
+            this.price = Integer.parseInt(input[3]);
         }
         //settare behaviour
     }
@@ -38,22 +40,22 @@ public class Order implements UserCommand{
     public Order(String orderType, String type, int size, int orderNumber){
         this.type = orderType;
         setBehaviour(new MarketOrder());
-        this.reqType = type;
+        this.exchangeType = type;
         this.size = size;
-        this.treshold = 0;
-        this.orderCode = orderNumber;
+        this.price = 0;
+        this.orderID = orderNumber;
         
     }
 
     //costruttore LimitOrder e StopOrder
-    public Order(String orderType, String type, int size, int treshold,int orderNumber){
+    public Order(String orderType, String type, int size, int price,int orderNumber){
         this.type = orderType;
         if (orderType.toLowerCase().contains("stoporder"))setBehaviour(new StopOrder());
         if (orderType.toLowerCase().contains("limitorder"))setBehaviour(new LimitOrder());
-        this.reqType = type;
+        this.exchangeType = type;
         this.size = size;
-        this.treshold = treshold;
-        this.orderCode = orderNumber;
+        this.price = price;
+        this.orderID = orderNumber;
     }
 
     public void setBehaviour(CommandBehaviour behaviour){
@@ -71,9 +73,9 @@ public class Order implements UserCommand{
     @Override
     public String[] getInfo(){
         String[] info = new String[4];
-        info[0] = this.reqType;
+        info[0] = this.exchangeType;
         info[1] = ""+this.size;
-        info[2] = ""+this.treshold;
+        info[2] = ""+this.price;
         return info;
     }
     
@@ -85,9 +87,9 @@ public class Order implements UserCommand{
     public String toString() {
         return "Order{" +
                "orderType='" + this.type + '\'' +
-               ", type='" + this.reqType + '\'' +
+               ", type='" + this.exchangeType + '\'' +
                ", size=" + this.size +
-               ", treshold=" + this.treshold +
+               ", price=" + this.price +
                ", myBehaviour=" + (this.myBehaviour != null ? this.myBehaviour.toString() : "null") +
                '}';
     }
@@ -107,6 +109,10 @@ public class Order implements UserCommand{
         //if(cmd.getInfo()[0])
         //al momento non so cosa devo controllare
         return this.getUnicode();
+    }
+
+    public int getorderID() {
+        return orderID;
     }
 
     

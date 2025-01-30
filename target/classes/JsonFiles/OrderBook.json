@@ -1,0 +1,20 @@
+{
+  "askMap": {
+    "0": {
+      "orderID": 0,
+      "type": "marketorder",
+      "exchangeType": "ask",
+      "size": 5,
+      "price": 0
+    }
+  },
+  "bidMap": {
+    "1": {
+      "orderID": 1,
+      "type": "marketorder",
+      "exchangeType": "bid",
+      "size": 5,
+      "price": 0
+    }
+  }
+}

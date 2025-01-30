@@ -9,6 +9,7 @@ import Communication.TCP;
 import JsonMemories.Orderbook;
 import JsonMemories.Userbook;
 import ServerTasks.*;
+import Users.Commands.Order;
 import Users.Commands.Factory.FactoryRegistry;
 
 public class ServerMain extends ServerProtocol{
@@ -72,6 +73,8 @@ public class ServerMain extends ServerProtocol{
     }
     public void initialConfig(){
         this.registeredUsers.loadData();
+        this.orderbook.addData(new Order("marketorder", "ask",5,0),"ask");
+        this.orderbook.addData(new Order("marketorder", "bid",5,1),"bid");
         this.orderbook.loadData();
         FactoryRegistry.updateFactoryData(0, registeredUsers);
         FactoryRegistry.updateFactoryData(1, orderbook);
