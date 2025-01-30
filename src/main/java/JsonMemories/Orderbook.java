@@ -35,13 +35,14 @@ public class Orderbook implements JsonAccessedData{
     
     @Override
     public void loadData() {
+        System.out.println("copio");
         try (JsonReader reader = new JsonReader(new FileReader(this.jsonFilePath)))  {
             OrderClass orderData = gson.fromJson(reader,OrderClass.class);
             this.askOrders = (TreeMap<Integer,Order>)orderData.askMap;
             this.bidOrders = (TreeMap<Integer,Order>)orderData.bidMap;
             System.out.println("copio");
         }
-        catch(Exception e){;}
+        catch(Exception e){System.out.println("copio male");;}
         return;
     }
 
