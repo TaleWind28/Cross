@@ -53,7 +53,7 @@ public class ClientMain extends ClientProtocol{
                             this.sock.close();
                             System.exit(0);
                         }
-                        System.out.println(serverAnswer.payload);
+                        System.out.print(serverAnswer.payload+"\n>>");
                         this.canSend = true;
                         continue;
                     //disconnessione
@@ -63,7 +63,7 @@ public class ClientMain extends ClientProtocol{
                         return;
                     //default
                     default:
-                        System.out.println(serverAnswer.payload);
+                        System.out.print(serverAnswer.payload+"\n >>");
                         this.canSend = true;
                         continue;
                 }            

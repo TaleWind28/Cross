@@ -57,7 +57,7 @@ public class GenericTask implements Runnable {
         //creo la task di disconnessione
         DisconnectTask inactivityDisconnection = new DisconnectTask(this.protocol,this.client,this.generatorServer,this);
         //invio il messaggio di benvenuto
-        protocol.sendMessage(new Message(welcomeMessage));
+        protocol.sendMessage(new Message(welcomeMessage,200));
         try{
             while(!(Thread.currentThread().isInterrupted())){
                 //this.onlineUser = "pippo";
