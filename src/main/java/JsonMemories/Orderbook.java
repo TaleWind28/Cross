@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 
 import Users.Commands.Order;
+import Utils.PriceComparator;
 
 public class Orderbook implements JsonAccessedData{
     private String jsonFilePath;
@@ -21,8 +22,8 @@ public class Orderbook implements JsonAccessedData{
         
     public Orderbook(String jsonFilePath){
         this.jsonFilePath = jsonFilePath;
-        this.askOrders = new TreeMap<>();
-        this.bidOrders = new TreeMap<>();
+        this.askOrders = new TreeMap<>(new PriceComparator());
+        this.bidOrders = new TreeMap<>(new PriceComparator().reversed());
         this.stopOrders = new ConcurrentLinkedQueue<>(); 
     }
     
@@ -46,10 +47,20 @@ public class Orderbook implements JsonAccessedData{
     }
 
     public void addData(Order ord,String mapType) {
-        if (mapType.equals("ask"))this.askOrders.put(""+ord.getorderID(),ord);
-        else this.bidOrders.put(""+ord.getorderID(),ord);
+        String orderbookEntry = ord.getUser()+":"+ord.getPrice();
+        System.out.println("entry:"+orderbookEntry);
+        TreeMap<String,Order> ordermap = this.getRequestedMap(mapType);
+        if(ordermap.containsKey(orderbookEntry))ordermap.get(orderbookEntry).addSize(ord.getSize());
+        else ordermap.put(orderbookEntry, ord);;
         this.dataFlush();
         return;
+    }
+
+    TreeMap<String,Order> getRequestedMap(String request){
+        System.out.println("MMMMMMMMMMM");
+        System.out.println("richiesta: "+request);
+        if(request.equals("ask"))return this.askOrders;
+        else return this.bidOrders;
     }
 
     public void dataFlush(){
@@ -61,6 +72,20 @@ public class Orderbook implements JsonAccessedData{
             System.out.println("Aiuto");
         }
         return;
+    }
+
+    public Order removeData(String mapType){
+        Order ord = null;
+        switch (mapType) {
+            case "ask":
+                break;
+        
+            case "bid":
+                ord = this.bidOrders.remove("1");
+                break;
+        }
+        dataFlush();
+        return ord;
     }
 
     public int mapLen() {

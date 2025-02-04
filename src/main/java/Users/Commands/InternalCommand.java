@@ -10,6 +10,7 @@ import Users.Commands.CommandBehaviours.Help;
 public class InternalCommand implements UserCommand{
     private String command;
     private CommandBehaviour myBehaviour;
+    private String user;
     
     public InternalCommand(String commandtype){
         this.command = commandtype;
@@ -49,6 +50,11 @@ public class InternalCommand implements UserCommand{
     @Override
     public int validateCommand(UserCommand cmd) {
         return 120;
+    }
+
+    @Override
+    public void setUser(String username) {
+        this.user = username;
     }
 
 }

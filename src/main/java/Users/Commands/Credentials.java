@@ -16,6 +16,7 @@ public class Credentials implements UserCommand{
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     private Userbook userbook;
     private CommandBehaviour myBehaviour;
+    private String user;
     private int unicode;
 
     public Credentials(String accessType,String user){
@@ -119,5 +120,10 @@ public class Credentials implements UserCommand{
     
     public BCryptPasswordEncoder getEncoder() {
         return encoder;
+    }
+
+    @Override
+    public void setUser(String username) {
+        this.user = username;
     }
 }
