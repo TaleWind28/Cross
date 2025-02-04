@@ -17,7 +17,7 @@ public class Orderbook implements JsonAccessedData{
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private TreeMap<String, Order> askOrders; // Prezzi crescenti
     private  TreeMap<String, Order> bidOrders; // Prezzi decrescenti
-    private  ConcurrentLinkedQueue<Order> stopOrders;//devo ancora vedere cosa sono
+    private  ConcurrentLinkedQueue<Order> stopOrders;//devo ancora capire cosa sono
         
     public Orderbook(String jsonFilePath){
         this.jsonFilePath = jsonFilePath;

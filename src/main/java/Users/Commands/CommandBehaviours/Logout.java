@@ -22,7 +22,7 @@ public class Logout implements CommandBehaviour{
         context.onlineUser = "";
         userbook.getUserMap().get(credentialsInfo[1]).setLogged(false);
         userbook.dataFlush();
-        return new Message("[200]: Disconnessione avenuta con successo! "+credentialsInfo[1],408);
+        return new Message("[200]: Disconnessione avenuta con successo!",408);
 
     }
     @Override

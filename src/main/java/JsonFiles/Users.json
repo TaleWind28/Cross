@@ -29,6 +29,11 @@
     "password": "$2a$10$reYx0tmh9XUmizv0SUJHKOahimZaclLKZ8mjCiCB2bxOOZaJw2.62",
     "isLogged": false
   },
+  "pinotto": {
+    "username": "pinotto",
+    "password": "$2a$10$rtr2YRUhXYyJc9YojBD8guTab/mb4KbmZxWxS6plJQxHrAr9JZ6ZS",
+    "isLogged": false
+  },
   "pippo": {
     "username": "pippo",
     "password": "$2a$10$IKo05duGZ5mRTBo5jupHGOqs93TtWr35.2xgC1UgTgQ1Zvdt6JT/2",
