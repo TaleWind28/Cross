@@ -77,11 +77,6 @@ public class Order implements UserCommand{
         return info;
     }
     
-    @Override
-    public String getType() {
-        return this.type;
-    }
-
     public String toString() {
         return "Order{" +
                "orderType='" + this.type + '\'' +
@@ -90,6 +85,11 @@ public class Order implements UserCommand{
                ", price=" + this.price +
                ", myBehaviour=" + (this.myBehaviour != null ? this.myBehaviour.toString() : "null") +
                '}';
+    }
+
+    @Override
+    public String getType() {
+        return this.type;
     }
 
     @Override
@@ -104,8 +104,6 @@ public class Order implements UserCommand{
 
     @Override
     public int validateCommand(UserCommand cmd) {
-        //if(cmd.getInfo()[0])
-        //al momento non so cosa devo controllare
         return this.getUnicode();
     }
 

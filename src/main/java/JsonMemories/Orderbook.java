@@ -57,7 +57,7 @@ public class Orderbook implements JsonAccessedData{
     }
 
     TreeMap<String,Order> getRequestedMap(String request){
-        System.out.println("MMMMMMMMMMM");
+        //System.out.println("MMMMMMMMMMM");
         System.out.println("richiesta: "+request);
         if(request.equals("ask"))return this.askOrders;
         else return this.bidOrders;
@@ -74,20 +74,29 @@ public class Orderbook implements JsonAccessedData{
         return;
     }
 
-    public Order removeData(String mapType){
+    public Order removeData(String mapType, String orderbookEntry){
         Order ord = null;
-        switch (mapType) {
-            case "ask":
-                break;
-        
-            case "bid":
-                ord = this.bidOrders.remove("1");
-                break;
-        }
+        TreeMap<String,Order> requestedMap = getRequestedMap(mapType);
+        System.out.println("entry "+orderbookEntry);
+        ord = requestedMap.remove(orderbookEntry);
         dataFlush();
         return ord;
     }
 
+    public String getBestPriceAvailable(int size,String tradeType){
+        TreeMap<String,Order> requestedMap = getRequestedMap(tradeType);
+        for(String key: requestedMap.keySet()){
+            if(requestedMap.get(key).getSize()<size)continue;
+            return key;
+            //System.out.println(key);
+        }
+        //requestedMap.forEach((key,elem)-> System.out.println("chiave: "+key+"element: "+elem));
+        return null;
+    }
+
+    public void orderSelection(){
+
+    }
     public int mapLen() {
         return this.askOrders.size() +this.bidOrders.size();
     }
