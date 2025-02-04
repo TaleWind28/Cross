@@ -10,6 +10,6 @@ public interface UserCommand {
     public String getType();
     public JsonAccessedData getJsonAccessedData();
     public int getUnicode();
-    public int validateCommand(UserCommand cmd);
+    //public int validateCommand(UserCommand cmd);
     public void setUser(String user);
 }

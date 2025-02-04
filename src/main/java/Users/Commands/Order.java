@@ -38,23 +38,12 @@ public class Order implements UserCommand{
         this.myBehaviour = null;
     }
 
-    //costruttore MarketOrder
-    public Order(String orderType, String type, int size, int orderNumber, Orderbook orderbook){
-        this.type = orderType;
-        setBehaviour(new MarketOrder());
-        this.exchangeType = type;
-        this.size = size;
-        this.price = 0;
-        this.orderID = orderNumber;
-        this.orderbook = orderbook;
-        
-    }
-
-    //costruttore LimitOrder e StopOrder
     public Order(String orderType, String type, int size, int price,int orderNumber, Orderbook orderbook){
         this.type = orderType;
-        if (orderType.toLowerCase().contains("stoporder"))setBehaviour(new StopOrder());
-        if (orderType.toLowerCase().contains("limitorder"))setBehaviour(new LimitOrder());
+        if (orderType.toLowerCase().contentEquals("marketorder"))setBehaviour(new MarketOrder());
+        else if (orderType.toLowerCase().contains("stoporder"))setBehaviour(new StopOrder());
+        else if (orderType.toLowerCase().contains("limitorder"))setBehaviour(new LimitOrder());
+        //System.out.println("mimmmo");
         this.exchangeType = type;
         this.size = size;
         this.price = price;
@@ -102,10 +91,10 @@ public class Order implements UserCommand{
         return this.unicode;
     }
 
-    @Override
-    public int validateCommand(UserCommand cmd) {
-        return this.getUnicode();
-    }
+    // @Override
+    // public int validateCommand(UserCommand cmd) {
+    //     return this.getUnicode();
+    // }
 
     public int getorderID() {
         return orderID;

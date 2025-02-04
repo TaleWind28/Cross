@@ -1,5 +1,7 @@
 package Users.Commands.Factory;
 
+import java.lang.invoke.SwitchPoint;
+
 import JsonMemories.JsonAccessedData;
 import JsonMemories.Orderbook;
 import Users.Commands.Order;
@@ -10,35 +12,30 @@ public class OrderFactory implements UserCommandFactory{
     private Orderbook orderbook;
     @Override
     public UserCommand createUserCommand(String[] command) {
-        //System.out.println(command[0]+" "+command[1]+" "+command[2]);
-        String orderType = command[0].toLowerCase();
-        String type = command[1].toLowerCase();
-        System.out.println(orderType+":"+type);
+        String type = null;
+        String orderType = null;
         int size = -1;
-        int price = -1;
         try {
+            //sistemo il tipo di ordine per avere solo la parte significativa
+            //(marketorder/limitorder/stoporder)
+            orderType = command[0].toLowerCase().replace("insert", "");
+            //(ask/bid)
+            type = command[1].toLowerCase();
+            //(qtà di bitcoin)
+            size = Integer.parseInt(command[2]);
+            //aumento l'order ID che DEVE essere unico
             orderNumber++;
             //qtà di bitcoin
             size = Integer.parseInt(command[2]);
-            System.out.println("dopo parsing");
-            //if (orderType.contains("marketorder") && command.length != 3)throw new Exception("Numero parametri errati per un marketorder");
-            if(orderType.contains("marketorder")){
-                orderType.replaceAll(".*(marketorder).*","$1");
-                //creo solo marketorder
-                if(command.length!=3)throw new Exception("Numero parametri errati per un marketorder");
-                return new Order(orderType, type, size, orderNumber,orderbook);
-            }
-            //System.out.println("provo");
-            //gli unici altri ordini da creare sono Limit e Stop che richiedono un quarto parametro
-            if (command.length > 4)throw new Exception("Numero parametri errati per stoporder e limitorder");
-            //soglia per limit e stoporder
-            price = Integer.parseInt(command[3]);
-            orderType = orderType.replace("insert","");
-            //creo l'ordine
-            return new Order(orderType,type,size,price,orderNumber,orderbook);
+            //prezzo di acquisto
+            int price = Integer.parseInt(command[3]);
+            return new Order(orderType,type,size,price,orderNumber,orderbook);    
         }catch (Exception e) {
+            //controllo solo la size perchè è l'ultimo parametro prima dell'eccezzioen che mi aspetto per i marketorder
+            //il prezzo è impostato ad un intero a caso perchè tanto non viene usato e soprattutto l'intellisense almeno è contento
+            if(orderType.equals("marketorder")&& size!=-1)return new Order(orderType,type,size,100,orderNumber,orderbook);
             System.out.println("out of bounds");
-            return new Order(orderType,type,price,-1,null);
+            return null;
         }
     }
 

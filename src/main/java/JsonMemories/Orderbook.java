@@ -81,18 +81,16 @@ public class Orderbook implements JsonAccessedData{
         return ord;
     }
 
-    public String getBestPriceAvailable(int size,String tradeType){
+    public String getBestPriceAvailable(int size,String tradeType, String myUsername){
         TreeMap<String,Order> requestedMap = getRequestedMap(tradeType);
         for(String key: requestedMap.keySet()){
+            if(key.split(":")[0].equals(myUsername))continue;
             if(requestedMap.get(key).getSize()<size)continue;
             else return key;
         }
         return null;
     }
-
-    public void orderSelection(){
-
-    }
+    
     public int mapLen() {
         return this.askOrders.size() +this.bidOrders.size();
     }

@@ -89,21 +89,26 @@ public class GenericTask implements Runnable {
     }
 
     public void serverReact(Message clientRequest){
-        //stampa di debug
-        System.out.println("richiesta factory: "+clientRequest.payload);
-        //creo il comando richiedendo la factory
-        System.out.println(clientRequest.payload+"payload");
-        UserCommand cmd = FactoryRegistry.getFactory(clientRequest.code).createUserCommand(clientRequest.payload.split(" "));
-        //stampa di debug
-        System.out.println("Comando fabbricato: "+cmd.toString());
-        //ottengo la risposta per il client eseguendo il comando creato dalla factory
-        Message responseMessage = cmd.execute(this);
-        //Stampa di debug -> risposta del server
-        System.out.println("Messaggio generato:\nPayload: "+responseMessage.payload+", code: "+responseMessage.code);
-        //invio il messaggio al client
-        protocol.sendMessage(responseMessage);
-        System.out.println("messaggio inviato");
-        return;
+        try{
+            //stampa di debug
+            System.out.println("richiesta factory: "+clientRequest.payload);
+            //creo il comando richiedendo la factory
+            UserCommand cmd = FactoryRegistry.getFactory(clientRequest.code).createUserCommand(clientRequest.payload.split(" "));
+            //stampa di debug
+            System.out.println("Comando fabbricato: "+cmd.toString());
+            //ottengo la risposta per il client eseguendo il comando creato dalla factory
+            Message responseMessage = cmd.execute(this);
+            //Stampa di debug -> risposta del server
+            System.out.println("Messaggio generato:\nPayload: "+responseMessage.payload+", code: "+responseMessage.code);
+            //invio il messaggio al client
+            protocol.sendMessage(responseMessage);
+            //stampa di debug
+            System.out.println("messaggio inviato");
+            return;
+        }
+        catch(Exception e){
+            protocol.sendMessage(new Message("[400]: Comando non correttamente formulato, digitare aiuto per una lista di comandi disponibili",400));
+        }
     }
 
     public synchronized String getOnlineUser(){

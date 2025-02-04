@@ -56,7 +56,7 @@ public class Credentials implements UserCommand{
     @Override
     public Message execute(GenericTask context) {
         
-        if(this.validateCommand(this) == 400)return new Message("400: Comando malformato, digitare aiuto per una lista di comandi disponibili");
+        //if(this.validateCommand(this) == 400)return new Message("400: Comando malformato, digitare aiuto per una lista di comandi disponibili");
         //this.password = this.encoder.encode(this.password);
         //capire come fare il match delle password dopo averle criptate
         return this.myBehaviour.executeOrder(this,context);
@@ -112,11 +112,11 @@ public class Credentials implements UserCommand{
         this.username = username;
     }
 
-    @Override
-    public int validateCommand(UserCommand cmd) {
-        if (this.username.equals("none"))return 400;
-        else return this.getUnicode();
-    }
+    // @Override
+    // public int validateCommand(UserCommand cmd) {
+    //     if (this.username.equals("none"))return 400;
+    //     else return this.getUnicode();
+    // }
     
     public BCryptPasswordEncoder getEncoder() {
         return encoder;

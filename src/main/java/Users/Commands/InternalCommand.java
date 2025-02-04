@@ -47,10 +47,10 @@ public class InternalCommand implements UserCommand{
         return info;
     }
 
-    @Override
-    public int validateCommand(UserCommand cmd) {
-        return 120;
-    }
+    //@Override
+    // public int validateCommand(UserCommand cmd) {
+    //     return 120;
+    // }
 
     @Override
     public void setUser(String username) {

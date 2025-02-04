@@ -43,11 +43,11 @@ public class CredentialsFactory implements UserCommandFactory{
                     System.out.println("password:"+password+",newpassword: "+newPassword);
                     return new Credentials(type,username,password,newPassword,userbook,new UpdateCredentials());
             }
-            return new Credentials("none",username);
+            return null;
         }
         catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("out of bounds");
-            return new Credentials("none","none");
+            System.out.println("[CredentialsFactory] out of bounds");
+            return null;
         }
     }
     
