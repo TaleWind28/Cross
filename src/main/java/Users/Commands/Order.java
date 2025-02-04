@@ -8,6 +8,7 @@ import ServerTasks.GenericTask;
 import Users.User;
 import Users.Commands.CommandBehaviours.LimitOrder;
 import Users.Commands.CommandBehaviours.MarketOrder;
+import Users.Commands.CommandBehaviours.CancelOrder;
 import Users.Commands.CommandBehaviours.CommandBehaviour;
 import Users.Commands.CommandBehaviours.StopOrder;
 
@@ -43,6 +44,7 @@ public class Order implements UserCommand{
         if (orderType.toLowerCase().contentEquals("marketorder"))setBehaviour(new MarketOrder());
         else if (orderType.toLowerCase().contains("stoporder"))setBehaviour(new StopOrder());
         else if (orderType.toLowerCase().contains("limitorder"))setBehaviour(new LimitOrder());
+        else if(orderType.toLowerCase().contains("cancelorder"))setBehaviour(new CancelOrder());
         //System.out.println("mimmmo");
         this.exchangeType = type;
         this.size = size;
@@ -103,6 +105,7 @@ public class Order implements UserCommand{
     @Override
     public Message execute(GenericTask context) {
         this.user = context.onlineUser;
+        System.out.println(this.user);
         return myBehaviour.executeOrder(this,context);
     }
     

@@ -21,7 +21,7 @@ public class MarketOrder implements CommandBehaviour {
         String exchangetype = null;
         //ha senso preparare il responsemessege adesse perchè se compro compro tutto dal solito utente, il quale verrà aggiunto successivamente al messaggio
         String responseMessage = null;
-        //switcho per preparare le stringhe
+        //preparo le stringhe per stampa e richiesta userbook
         switch (ord.getExchangeType()) {
             case "ask":
                 exchangetype = "bid";
@@ -34,7 +34,6 @@ public class MarketOrder implements CommandBehaviour {
         }
         //cerco il miglior prezzo per la qtà di bitcoin che voglio comprare
         String orderbookEntry = ordb.getBestPriceAvailable(ord.getSize(), exchangetype,context.onlineUser);
-        //System.out.println("entry: "+orderbookEntry);
         //controllo che esista una entry per il mio ordine
         if(orderbookEntry == null)return new Message("[404] Non sono stati trovati ordini per le tue esigenze",-1);
         //rimuovo l'ordine dall'orderbook
@@ -42,15 +41,14 @@ public class MarketOrder implements CommandBehaviour {
         //controllo che l'ordine sia stato evaso
         if(evadedOrder == null)return new Message("[404] Non sono stati trovati ordini per le tue esigenze",-1);
         System.out.println("taglia ordine utente:"+ord.getSize()+", taglia ordine mercato:"+evadedOrder.getSize());
-        //controllo quanti btc sono stati compratis
+        //controllo quanti btc sono stati comprati
         if(evadedOrder.getSize()>ord.getSize()){
-            //System.out.println("aaaa");
             //sottraggo la taglia di bitcoin comprata
             evadedOrder.addSize(-(ord.getSize()));
             //rimetto l'offerta sul mercato
             ordb.addData(evadedOrder, exchangetype);
         }
-        responseMessage+=evadedOrder.getUser();
+        responseMessage+=evadedOrder.getUser()+" pagando "+(evadedOrder.getPrice()*ord.getSize())+"$";
         return new Message(responseMessage,200);
     }
 

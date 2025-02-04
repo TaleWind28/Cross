@@ -22,6 +22,8 @@ public class FactoryRegistry {
 
     public static void updateFactoryData(int factoryCode,JsonAccessedData data){
         FactoryRegistry.getFactory(factoryCode).setJsonDataStructure(data);
+        
         return;
-    }   
+    }
+
 }

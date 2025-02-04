@@ -34,7 +34,7 @@ public class Orderbook implements JsonAccessedData{
     }
     
     @Override
-    public void loadData() {
+    public synchronized void loadData() {
         System.out.println("copio");
         try (JsonReader reader = new JsonReader(new FileReader(this.jsonFilePath)))  {
             OrderClass orderData = gson.fromJson(reader,OrderClass.class);
@@ -46,7 +46,7 @@ public class Orderbook implements JsonAccessedData{
         return;
     }
 
-    public void addData(Order ord,String mapType) {
+    public synchronized void addData(Order ord,String mapType) {
         String orderbookEntry = ord.getUser()+":"+ord.getPrice();
         System.out.println("entry:"+orderbookEntry);
         TreeMap<String,Order> ordermap = this.getRequestedMap(mapType);
@@ -56,23 +56,23 @@ public class Orderbook implements JsonAccessedData{
         return;
     }
 
-    TreeMap<String,Order> getRequestedMap(String request){
+    public TreeMap<String,Order> getRequestedMap(String request){
         if(request.equals("ask"))return this.askOrders;
         else return this.bidOrders;
     }
 
-    public void dataFlush(){
+    public synchronized void dataFlush(){
         OrderClass oc = new OrderClass(this.askOrders, this.bidOrders);
         try (BufferedWriter writer = new BufferedWriter((new FileWriter(this.jsonFilePath)))) {
             writer.write(this.gson.toJson(oc));
-            System.out.println("scritto");
+            //System.out.println("scritto");
         } catch (Exception e) {
             System.out.println("Aiuto");
         }
         return;
     }
 
-    public Order removeData(String mapType, String orderbookEntry){
+    public synchronized Order removeData(String mapType, String orderbookEntry){
         Order ord = null;
         TreeMap<String,Order> requestedMap = getRequestedMap(mapType);
         System.out.println("entry "+orderbookEntry);
@@ -81,7 +81,7 @@ public class Orderbook implements JsonAccessedData{
         return ord;
     }
 
-    public String getBestPriceAvailable(int size,String tradeType, String myUsername){
+    public synchronized String getBestPriceAvailable(int size,String tradeType, String myUsername){
         TreeMap<String,Order> requestedMap = getRequestedMap(tradeType);
         for(String key: requestedMap.keySet()){
             if(key.split(":")[0].equals(myUsername))continue;
@@ -90,8 +90,16 @@ public class Orderbook implements JsonAccessedData{
         }
         return null;
     }
+
+    public synchronized TreeMap<String, Order> getAskOrders() {
+        return askOrders;
+    }
+
+    public synchronized TreeMap<String, Order> getBidOrders() {
+        return bidOrders;
+    }
     
-    public int mapLen() {
+    public synchronized int mapLen() {
         return this.askOrders.size() +this.bidOrders.size();
     }
 

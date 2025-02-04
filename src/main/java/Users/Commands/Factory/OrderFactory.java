@@ -1,7 +1,5 @@
 package Users.Commands.Factory;
 
-import java.lang.invoke.SwitchPoint;
-
 import JsonMemories.JsonAccessedData;
 import JsonMemories.Orderbook;
 import Users.Commands.Order;
@@ -25,13 +23,13 @@ public class OrderFactory implements UserCommandFactory{
             size = Integer.parseInt(command[2]);
             //aumento l'order ID che DEVE essere unico
             orderNumber++;
-            //qtà di bitcoin
-            size = Integer.parseInt(command[2]);
             //prezzo di acquisto
             int price = Integer.parseInt(command[3]);
             return new Order(orderType,type,size,price,orderNumber,orderbook);    
-        }catch (Exception e) {
-            //controllo solo la size perchè è l'ultimo parametro prima dell'eccezzioen che mi aspetto per i marketorder
+        }//potrei generare delle eccezioni specifiche per marketorder e cancelorder
+        catch (Exception e) {
+            //controllo se è stato un marketorder a sollevare l'eccezione
+            if(orderType.toLowerCase().equals("cancelorder"))return new Order(orderType,type,-1,-1,Integer.parseInt(command[1]),orderbook);
             //il prezzo è impostato ad un intero a caso perchè tanto non viene usato e soprattutto l'intellisense almeno è contento
             if(orderType.equals("marketorder")&& size!=-1)return new Order(orderType,type,size,100,orderNumber,orderbook);
             System.out.println("out of bounds");
