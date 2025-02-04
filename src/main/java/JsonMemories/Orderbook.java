@@ -57,8 +57,6 @@ public class Orderbook implements JsonAccessedData{
     }
 
     TreeMap<String,Order> getRequestedMap(String request){
-        //System.out.println("MMMMMMMMMMM");
-        System.out.println("richiesta: "+request);
         if(request.equals("ask"))return this.askOrders;
         else return this.bidOrders;
     }
@@ -87,10 +85,8 @@ public class Orderbook implements JsonAccessedData{
         TreeMap<String,Order> requestedMap = getRequestedMap(tradeType);
         for(String key: requestedMap.keySet()){
             if(requestedMap.get(key).getSize()<size)continue;
-            return key;
-            //System.out.println(key);
+            else return key;
         }
-        //requestedMap.forEach((key,elem)-> System.out.println("chiave: "+key+"element: "+elem));
         return null;
     }
 

@@ -138,6 +138,7 @@ public class Order implements UserCommand{
     }
 
     public void addSize(int newSize){
+        System.out.println("[addSize] taglia nuova:"+newSize);
         this.size += newSize;
     }
 
