@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example</groupId>
+    <groupId>main.java</groupId>
     <artifactId>CROSS</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -37,6 +37,54 @@
             <version>5.7.6</version>
         </dependency>
 
-
     </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Plugin per creare il JAR del Server -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>server-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>server</classifier>
+                            <archive>
+                                <manifest>
+                                    <mainClass>Executables.ServerMain</mainClass>
+                                </manifest>
+                            </archive>
+                            <finalName>ServerMain</finalName>
+                        </configuration>
+                    </execution>
+
+                    <!-- Plugin per creare il JAR del Client -->
+                    <execution>
+                        <id>client-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>client</classifier>
+                            <finalName>ClientMain</finalName>
+                            <archive>
+                                <manifest>
+                                    <mainClass>Executables.ClientMain</mainClass>
+                                </manifest>
+                            </archive>
+                            <finalName>ClientMain</finalName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+</build>
+
 </project>
