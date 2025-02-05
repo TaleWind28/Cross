@@ -39,6 +39,8 @@ public class InternalCommand implements UserCommand{
     }
     @Override
     public Message execute(GenericTask context) {
+        setUser(context.onlineUser);
+        System.out.println(this.user);
         return this.myBehaviour.executeOrder(this, context);
     }
     @Override
@@ -46,11 +48,6 @@ public class InternalCommand implements UserCommand{
         String[] info = this.command.split(" ");
         return info;
     }
-
-    //@Override
-    // public int validateCommand(UserCommand cmd) {
-    //     return 120;
-    // }
 
     @Override
     public void setUser(String username) {

@@ -55,10 +55,9 @@ public class Credentials implements UserCommand{
 
     @Override
     public Message execute(GenericTask context) {
-        
-        //if(this.validateCommand(this) == 400)return new Message("400: Comando malformato, digitare aiuto per una lista di comandi disponibili");
-        //this.password = this.encoder.encode(this.password);
-        //capire come fare il match delle password dopo averle criptate
+        setUser(context.onlineUser);
+        //this.user = context.onlineUser;
+        System.out.println(this.user);
         return this.myBehaviour.executeOrder(this,context);
     }
     
