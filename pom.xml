@@ -58,21 +58,19 @@
                                 <!-- Escludi dipendenze che non servono per il server -->
                             </excludes>
                         </artifactSet>
-                        <finalName>server-fat-jar</finalName>
+                        <finalName>server-jar</finalName>
                         <shadedArtifactAttached>false</shadedArtifactAttached>
                         <createDependencyReducedPom>false</createDependencyReducedPom>
                         <transformers>
                             <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                <mainClass>com.example.ServerMain</mainClass>
+                                <mainClass>Executables.ServerMain</mainClass>
                             </transformer>
                         </transformers>
                     </configuration>
                 </execution>
             </executions>
-        </plugin>
-
-        <!-- Fat JAR per il client -->
-        <plugin>
+        </plugin> 
+         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-shade-plugin</artifactId>
             <version>3.5.1</version>
@@ -85,65 +83,83 @@
                     <configuration>
                         <artifactSet>
                             <excludes>
-                                <!-- Escludi dipendenze che non servono per il client -->
+                                <!-- Escludi dipendenze che non servono per il server -->
                             </excludes>
                         </artifactSet>
-                        <finalName>client-fat-jar</finalName>
+                        <finalName>client-jar</finalName>
                         <shadedArtifactAttached>false</shadedArtifactAttached>
                         <createDependencyReducedPom>false</createDependencyReducedPom>
                         <transformers>
                             <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                <mainClass>com.example.ClientMain</mainClass>
+                                <mainClass>Executables.Main</mainClass>
                             </transformer>
                         </transformers>
                     </configuration>
                 </execution>
             </executions>
         </plugin>
-
-            <!-- Plugin per creare il JAR del Server -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-                <executions>
-                    <execution>
-                        <id>server-jar</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <classifier>server</classifier>
-                            <archive>
-                                <manifest>
-                                    <mainClass>Executables.ServerMain</mainClass> <!-- Main class per il server -->
-                                </manifest>
-                            </archive>
-                            <finalName>ServerMain</finalName>
-                        </configuration>
-                    </execution>
-
-                    <!-- Plugin per creare il JAR del Client -->
-                    <execution>
-                        <id>client-jar</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <classifier>client</classifier>
-                            <archive>
-                                <manifest>
-                                    <mainClass>Executables.ClientMain</mainClass> <!-- Main class per il client -->
-                                </manifest>
-                            </archive>
-                            <finalName>ClientMain</finalName>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
+    <profiles>
+        <!-- Profilo per la build del server -->
+        <profile>
+            <id>server</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <version>3.5.1</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>shade</goal>
+                                </goals>
+                                <configuration>
+                                    <finalName>ServerMain</finalName>
+                                    <transformers>
+                                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                            <mainClass>Executables.ServerMain</mainClass>
+                                        </transformer>
+                                    </transformers>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Profilo per la build del client -->
+        <profile>
+            <id>client</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <version>3.5.1</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>shade</goal>
+                                </goals>
+                                <configuration>
+                                    <finalName>ClientMain</finalName>
+                                    <transformers>
+                                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                            <mainClass>Executables.ClientMain</mainClass>
+                                        </transformer>
+                                    </transformers>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

@@ -1,6 +1,3 @@
 *.class
 bin
 target
-target\classes\JsonFiles
-target\classes\JsonFiles\OrderBook.json
-target\classes\JsonFiles\Users.json
