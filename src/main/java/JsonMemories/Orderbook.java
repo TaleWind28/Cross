@@ -25,6 +25,7 @@ public class Orderbook implements JsonAccessedData{
         this.askOrders = new TreeMap<>(new PriceComparator());
         this.bidOrders = new TreeMap<>(new PriceComparator().reversed());
         this.stopOrders = new ConcurrentLinkedQueue<>(); 
+        System.out.println(this.stopOrders);
     }
     
     @Override
