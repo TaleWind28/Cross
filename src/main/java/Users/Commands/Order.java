@@ -1,16 +1,12 @@
 package Users.Commands;
-import java.util.concurrent.ConcurrentHashMap;
 
+import java.util.concurrent.ConcurrentHashMap;
 import Communication.Message;
 import JsonMemories.JsonAccessedData;
 import JsonMemories.Orderbook;
 import ServerTasks.GenericTask;
 import Users.User;
-import Users.Commands.CommandBehaviours.LimitOrder;
-import Users.Commands.CommandBehaviours.MarketOrder;
-import Users.Commands.CommandBehaviours.CancelOrder;
 import Users.Commands.CommandBehaviours.CommandBehaviour;
-import Users.Commands.CommandBehaviours.StopOrder;
 
 
 public class Order implements UserCommand{
@@ -25,47 +21,22 @@ public class Order implements UserCommand{
     transient protected ConcurrentHashMap<String, User> map;//interessante
     transient protected Orderbook orderbook;//orderbook dove "piazzare" gli ordini
     transient protected int unicode;//unicode degli ordini -> NON è IL CODICE UNIVOCO DELL'ORDINE SINGOLO
-    
-    
-    public Order(String[] input){
-        this.type = input[0];
-        this.exchangeType = input[1];
-        this.size = Integer.parseInt(input[2]);
-        this.price = 0;
-        if(input.length==4){
-            this.price = Integer.parseInt(input[3]);
-        }
-        //settare behaviour
-        this.myBehaviour = null;
-    }
 
-    public Order(String orderType, String type, int size, int price,int orderNumber, Orderbook orderbook){
+    public Order(String orderType, String type, int size, int price,int orderNumber, Orderbook orderbook, CommandBehaviour behaviour){
         this.type = orderType;
-        if (orderType.toLowerCase().contentEquals("marketorder"))setBehaviour(new MarketOrder());
-        else if (orderType.toLowerCase().contains("stoporder"))setBehaviour(new StopOrder());
-        else if (orderType.toLowerCase().contains("limitorder"))setBehaviour(new LimitOrder());
-        else if(orderType.toLowerCase().contains("cancelorder"))setBehaviour(new CancelOrder());
-        //System.out.println("mimmmo");
         this.exchangeType = type;
         this.size = size;
         this.price = price;
         this.orderID = orderNumber;
         this.orderbook = orderbook;
+        setBehaviour(behaviour);
     }   
 
-    public void setBehaviour(CommandBehaviour behaviour){
-        this.myBehaviour = behaviour;
-        this.unicode = behaviour.getUnicode();
-        return;
-    }
-
     @Override
-    public String[] getInfo(){
-        String[] info = new String[4];
-        info[0] = this.exchangeType;
-        info[1] = ""+this.size;
-        info[2] = ""+this.price;
-        return info;
+    public Message execute(GenericTask context) {
+        this.user = context.onlineUser;
+        System.out.println(this.user);
+        return myBehaviour.executeOrder(this,context);
     }
     
     public String toString() {
@@ -88,25 +59,42 @@ public class Order implements UserCommand{
         return this.orderbook;
     }
 
+    public void setBehaviour(CommandBehaviour behaviour){
+        this.myBehaviour = behaviour;
+        this.unicode = behaviour.getUnicode();
+        return;
+    }
+
+    @Override
+    public void setUser(String username) {
+        this.user = username;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+    
+    public void addSize(int newSize){
+        System.out.println("[addSize] taglia nuova:"+newSize);
+        this.size += newSize;
+    }
+
+    @Override
+    public String[] getInfo(){
+        String[] info = new String[4];
+        info[0] = this.exchangeType;
+        info[1] = ""+this.size;
+        info[2] = ""+this.price;
+        return info;
+    }
+    
     @Override
     public int getUnicode() {
         return this.unicode;
     }
 
-    // @Override
-    // public int validateCommand(UserCommand cmd) {
-    //     return this.getUnicode();
-    // }
-
     public int getorderID() {
         return orderID;
-    }
-    
-    @Override
-    public Message execute(GenericTask context) {
-        this.user = context.onlineUser;
-        System.out.println(this.user);
-        return myBehaviour.executeOrder(this,context);
     }
     
     public Orderbook getOrderbook() {
@@ -125,21 +113,8 @@ public class Order implements UserCommand{
         return price;
     }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public void addSize(int newSize){
-        System.out.println("[addSize] taglia nuova:"+newSize);
-        this.size += newSize;
-    }
-
     public int getSize() {
         return size;
     }
 
-    @Override
-    public void setUser(String username) {
-        this.user = username;
-    }
 }   

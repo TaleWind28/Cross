@@ -2,6 +2,8 @@ package Executables;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 import Communication.ServerProtocol;
@@ -9,7 +11,9 @@ import Communication.TCP;
 import JsonMemories.Orderbook;
 import JsonMemories.Userbook;
 import ServerTasks.*;
+import Users.Commands.Order;
 import Users.Commands.Factory.FactoryRegistry;
+import Users.Commands.Factory.OrderFactory;
 
 public class ServerMain extends ServerProtocol{
     private Userbook registeredUsers;
@@ -81,13 +85,27 @@ public class ServerMain extends ServerProtocol{
         // this.orderbook.addData(new Order("marketorder", "ask",5,2),"ask");
         // this.orderbook.addData(new Order("marketorder", "bid",5,1),"bid");
         this.orderbook.loadData();
-        int progressiveOrderNumber = this.orderbook.mapLen()-1;
+        // int progressiveOrderNumber = this.orderbook.mapLen()-1;
+        int progressiveOrderNumber = findOrderID(orderbook);
         System.out.println("Numero Ordine: "+progressiveOrderNumber);
-        FactoryRegistry.updateFactoryData(0, registeredUsers);
-        FactoryRegistry.updateFactoryData(1, orderbook);
-        // UserCommandFactory fact = FactoryRegistry.getFactory(1);
-        // if(fact instanceof OrderFactory)((OrderFactory)fact).setOrderNumber(progressiveOrderNumber);
-        // FactoryRegistry.getFactory(1).createUserCommand()
+        FactoryRegistry.updateFactoryData(0, registeredUsers,"");
+        FactoryRegistry.updateFactoryData(1, orderbook,""+progressiveOrderNumber);
+        FactoryRegistry.getFactory(1);
         return;
+    }
+
+    public int findOrderID(Orderbook orderbook){
+        int bestId = searchMap(orderbook, "ask", -1);
+        bestId = searchMap(orderbook, "bid", bestId);
+        return bestId;
+    }
+
+    public int searchMap(Orderbook orderbook,String requestedMap,int bestId){
+        TreeMap<String,Order> map = orderbook.getRequestedMap(requestedMap);
+        for(Map.Entry<String,Order> entry :map.entrySet()){
+            if((entry.getValue().getorderID()< bestId))continue;
+            bestId = entry.getValue().getorderID();
+        }
+        return bestId;
     }
 }

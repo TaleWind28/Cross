@@ -1,4 +1,4 @@
-package Users.Commands.Factory;
+package Utils.CustomExceptions;
 
 public class AlreadyExistingUser extends Throwable{
 

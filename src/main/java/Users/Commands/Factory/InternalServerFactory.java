@@ -20,4 +20,9 @@ public class InternalServerFactory implements UserCommandFactory{
         return;
     }
 
+    @Override
+    public void additionalInfo(String otherinfo) {
+        return;
+    }
+
 }

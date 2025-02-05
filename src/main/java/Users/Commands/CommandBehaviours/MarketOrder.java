@@ -29,7 +29,7 @@ public class MarketOrder implements CommandBehaviour {
                 break;
             case "bid":
                 exchangetype = "ask";
-                responseMessage = "[200]: OrderCode[\" + ord.getorderID()+\"] n°"+ord.getSize()+" bitcoin comprati dall'utente ";
+                responseMessage = "[200]: OrderCode[" + ord.getorderID()+"] n°"+ord.getSize()+" bitcoin comprati dall'utente ";
                 break;
         }
         //cerco il miglior prezzo per la qtà di bitcoin che voglio comprare

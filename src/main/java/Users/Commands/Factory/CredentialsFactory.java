@@ -50,5 +50,10 @@ public class CredentialsFactory implements UserCommandFactory{
             return null;
         }
     }
+
+    @Override
+    public void additionalInfo(String otherinfo) {
+        return;    
+    }
     
 }

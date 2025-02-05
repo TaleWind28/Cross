@@ -20,9 +20,9 @@ public class FactoryRegistry {
         return factory;
     }
 
-    public static void updateFactoryData(int factoryCode,JsonAccessedData data){
+    public static void updateFactoryData(int factoryCode,JsonAccessedData data, String otherinfo){
         FactoryRegistry.getFactory(factoryCode).setJsonDataStructure(data);
-        
+        FactoryRegistry.getFactory(factoryCode).additionalInfo(otherinfo);
         return;
     }
 

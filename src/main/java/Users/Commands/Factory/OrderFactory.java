@@ -4,34 +4,43 @@ import JsonMemories.JsonAccessedData;
 import JsonMemories.Orderbook;
 import Users.Commands.Order;
 import Users.Commands.UserCommand;
+import Users.Commands.CommandBehaviours.CancelOrder;
+import Users.Commands.CommandBehaviours.LimitOrder;
+import Users.Commands.CommandBehaviours.MarketOrder;
+import Users.Commands.CommandBehaviours.StopOrder;
+import Utils.CustomExceptions.UnrecognizedOrderException;
 
 public class OrderFactory implements UserCommandFactory{
     private int orderNumber = 0;
     private Orderbook orderbook;
+
     @Override
     public UserCommand createUserCommand(String[] command) {
-        String type = null;
-        String orderType = null;
-        int size = -1;
         try {
             //sistemo il tipo di ordine per avere solo la parte significativa
-            //(marketorder/limitorder/stoporder)
-            orderType = command[0].toLowerCase().replace("insert", "");
-            //(ask/bid)
-            type = command[1].toLowerCase();
-            //(qtà di bitcoin)
-            size = Integer.parseInt(command[2]);
+            String orderType = command[0].toLowerCase().replace("insert", "").replace("order", "");
             //aumento l'order ID che DEVE essere unico
             orderNumber++;
-            //prezzo di acquisto
-            int price = Integer.parseInt(command[3]);
-            return new Order(orderType,type,size,price,orderNumber,orderbook);    
+            switch (orderType) {
+                case "cancel":
+                    return new Order(orderType,"none",-1,-1,Integer.parseInt(command[1]),orderbook,new CancelOrder());    
+                    //break;
+                case "market":   
+                    return new Order(orderType,command[1],Integer.parseInt(command[2]),0,orderNumber,orderbook,new MarketOrder());
+                case "limit":
+                    return new Order(orderType,command[1],Integer.parseInt(command[2]),Integer.parseInt(command[3]),orderNumber,orderbook,new LimitOrder());
+                case "stop":
+                    return new Order(orderType,command[1],Integer.parseInt(command[2]),Integer.parseInt(command[3]),orderNumber,orderbook,new StopOrder());
+                default:
+                    throw new UnrecognizedOrderException("Ordine non disponibile");
+            }
         }//potrei generare delle eccezioni specifiche per marketorder e cancelorder
+        catch(UnrecognizedOrderException e){
+            //gestire eccezione
+            System.out.println("Ordine non gestito");
+            return null;
+        }
         catch (Exception e) {
-            //controllo se è stato un marketorder a sollevare l'eccezione
-            if(orderType.toLowerCase().equals("cancelorder"))return new Order(orderType,type,-1,-1,Integer.parseInt(command[1]),orderbook);
-            //il prezzo è impostato ad un intero a caso perchè tanto non viene usato e soprattutto l'intellisense almeno è contento
-            if(orderType.equals("marketorder")&& size!=-1)return new Order(orderType,type,size,100,orderNumber,orderbook);
             System.out.println("out of bounds");
             return null;
         }
@@ -45,5 +54,12 @@ public class OrderFactory implements UserCommandFactory{
 
     public void setOrderNumber(int orderNumber) {
         this.orderNumber = orderNumber;
+        return;
+    }
+
+    @Override
+    public void additionalInfo(String otherinfo) {
+        setOrderNumber(Integer.parseInt(otherinfo));    
+        return;
     }
 }
