@@ -25,11 +25,11 @@ public class MarketOrder implements CommandBehaviour {
         switch (ord.getExchangeType()) {
             case "ask":
                 exchangetype = "bid";
-                responseMessage = "[200]: n°"+ord.getSize()+" bitcoin venduti all'utente ";
+                responseMessage = "[200]: OrderCode[" + ord.getorderID()+"] n°"+ord.getSize()+" bitcoin venduti all'utente ";
                 break;
             case "bid":
                 exchangetype = "ask";
-                responseMessage = "[200]: n°"+ord.getSize()+" bitcoin comprati dall'utente ";
+                responseMessage = "[200]: OrderCode[\" + ord.getorderID()+\"] n°"+ord.getSize()+" bitcoin comprati dall'utente ";
                 break;
         }
         //cerco il miglior prezzo per la qtà di bitcoin che voglio comprare
@@ -40,7 +40,7 @@ public class MarketOrder implements CommandBehaviour {
         Order evadedOrder = ordb.removeData(exchangetype,orderbookEntry);
         //controllo che l'ordine sia stato evaso
         if(evadedOrder == null)return new Message("[404] Non sono stati trovati ordini per le tue esigenze",-1);
-        System.out.println("taglia ordine utente:"+ord.getSize()+", taglia ordine mercato:"+evadedOrder.getSize());
+        //System.out.println("taglia ordine utente:"+ord.getSize()+", taglia ordine mercato:"+evadedOrder.getSize());
         //controllo quanti btc sono stati comprati
         if(evadedOrder.getSize()>ord.getSize()){
             //sottraggo la taglia di bitcoin comprata

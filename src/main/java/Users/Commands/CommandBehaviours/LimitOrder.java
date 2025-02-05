@@ -15,7 +15,7 @@ public class LimitOrder implements CommandBehaviour{
         //non so come funziona l'algoritmo richiesto dalla ricci quindi lo lascio così
         orderbook.addData(ord, ord.getExchangeType());
         //System.out.println("fatto");
-        return new Message("[200] Limitorder Correttamente inserito!",200);
+        return new Message("[200] Limitorder Correttamente inserito, OrderCode["+ord.getorderID()+"]",200);
     }
 
     @Override
