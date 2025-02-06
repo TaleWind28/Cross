@@ -39,6 +39,11 @@
     "password": "$2a$10$IKo05duGZ5mRTBo5jupHGOqs93TtWr35.2xgC1UgTgQ1Zvdt6JT/2",
     "isLogged": false
   },
+  "lorenzo": {
+    "username": "lorenzo",
+    "password": "$2a$10$Cc12etsMTVx1tu287ag5YOS/yrki43w4jIVrLGqFJY92.Wq9Nl0yK",
+    "isLogged": false
+  },
   "pino": {
     "username": "pino",
     "password": "$2a$10$MMmf2UzAjQEi9jRUfw2wGeHoQaYrazK/b6mC5.fozYF9hbv8vQus2",

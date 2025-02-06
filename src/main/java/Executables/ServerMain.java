@@ -84,6 +84,7 @@ public class ServerMain extends ServerProtocol{
         // this.orderbook.addData(new Order("marketorder", "ask",5,2),"ask");
         // this.orderbook.addData(new Order("marketorder", "bid",5,1),"bid");
         this.orderbook.loadData();
+        System.out.println(this.orderbook.toString());
         // int progressiveOrderNumber = this.orderbook.mapLen()-1;
         int progressiveOrderNumber = findOrderID(orderbook);
         System.out.println("Numero Ordine: "+progressiveOrderNumber);

@@ -104,4 +104,9 @@ public class Orderbook implements JsonAccessedData{
         return this.askOrders.size() +this.bidOrders.size();
     }
 
+    @Override
+    public String toString() {
+        return null;
+        
+    }
 }
