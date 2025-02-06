@@ -79,13 +79,9 @@ public class ServerMain extends ServerProtocol{
     }
 
     public void initialConfig(){
+        //carico in memoria
         this.registeredUsers.loadData();
-        // this.orderbook.addData(new Order("marketorder", "ask",5,0),"ask");
-        // this.orderbook.addData(new Order("marketorder", "ask",5,2),"ask");
-        // this.orderbook.addData(new Order("marketorder", "bid",5,1),"bid");
         this.orderbook.loadData();
-        //System.out.println(this.orderbook.pretty());
-        // int progressiveOrderNumber = this.orderbook.mapLen()-1;
         int progressiveOrderNumber = findOrderID(orderbook);
         System.out.println("Numero Ordine: "+progressiveOrderNumber);
         FactoryRegistry.updateFactoryData(0, registeredUsers,"");
