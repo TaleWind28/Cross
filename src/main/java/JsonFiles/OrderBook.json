@@ -1,5 +1,21 @@
 {
   "askMap": {
+    "pino:1": {
+      "orderID": 5,
+      "type": "limit",
+      "exchangeType": "ask",
+      "size": 1,
+      "price": 1,
+      "user": "pino"
+    },
+    "pino:12": {
+      "orderID": 7,
+      "type": "limit",
+      "exchangeType": "ask",
+      "size": 35,
+      "price": 12,
+      "user": "pino"
+    },
     "pino:5": {
       "orderID": 0,
       "type": "limit",

@@ -58,7 +58,7 @@
                                 <!-- Escludi dipendenze che non servono per il server -->
                             </excludes>
                         </artifactSet>
-                        <finalName>server-jar</finalName>
+                        <finalName>ServerMain</finalName>
                         <shadedArtifactAttached>false</shadedArtifactAttached>
                         <createDependencyReducedPom>false</createDependencyReducedPom>
                         <transformers>

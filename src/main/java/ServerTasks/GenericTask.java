@@ -21,7 +21,6 @@ public class GenericTask implements Runnable {
     private ScheduledFuture<?> timeoutTask;
     private Protocol protocol;
     public volatile String onlineUser = new String();
-    public String helpMessage = "Comandi:\nregister<username,password> -> ti permette di registrarti per poter accedere al servizio di trading\nlogin<username,password> -> permette di accedere ad un account registrato\nupdateCredentials<username,currentPasswd,newPasswd> -> permette di aggiornare le credenziali\nlogout<username> -> permette di uscire dal servizio di trading";
     public String welcomeMessage = "Per fare trading inserire un ordine di qualunque tipo";
     
     public GenericTask(Socket client_socket,Protocol protocol) throws Exception{

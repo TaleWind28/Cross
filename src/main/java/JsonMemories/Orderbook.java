@@ -3,6 +3,7 @@ package JsonMemories;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -104,9 +105,25 @@ public class Orderbook implements JsonAccessedData{
         return this.askOrders.size() +this.bidOrders.size();
     }
 
-    @Override
-    public String toString() {
-        return null;
+    public String pretty() {
+        //System.out.println(this.askOrders.toString());
+        
+        String prettyPrinting = "   ExchangeType\t  Bitcoin Size\t Price per Bitcoin\n";
+        prettyPrinting = prettyPrinting(this,"ask",prettyPrinting);
+        prettyPrinting = prettyPrinting(this,"bid",prettyPrinting);
+        return prettyPrinting;
         
     }
+
+    public String prettyPrinting(Orderbook orderbook, String requestedmap, String prettyPrinting) {
+        
+        for(Map.Entry<String,Order> entry: orderbook.getRequestedMap(requestedmap).entrySet()){
+            Order ord = entry.getValue();
+            prettyPrinting+="\t"+ord.getExchangeType()+"\t \t"+ord.getSize()+"\t \t"+ord.getPrice()+"\n";
+        }
+
+        return prettyPrinting;
+        
+    }
+
 }
